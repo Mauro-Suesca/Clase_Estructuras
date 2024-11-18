@@ -3,7 +3,7 @@ import java.time.temporal.ChronoUnit;
 
 public class TiempoLista{
     public static void main(String[] args){
-        Lista_array<Integer> list;
+        Lista<Integer> list;
         Instant inicio, inicio_secundario, inicio_terciario;
         int n = 10000;
         long[] add_time, remove_time, extra_time;
@@ -55,7 +55,7 @@ public class TiempoLista{
             //Find
             inicio_secundario = Instant.now();
             for(int j=0; j<n; j++){
-                list.find(j);
+                ((Lista_Array_Inter<Integer>)list).find(j);
             }
             extra_time[i] = inicio_secundario.until(Instant.now(), ChronoUnit.SECONDS);
             

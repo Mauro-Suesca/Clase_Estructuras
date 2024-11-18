@@ -117,8 +117,12 @@ public class Lista_enlazada<T> implements Lista_nodo<T>{
 
     public void addBefore(Node<T> posicion, T valor){
         Node<T> nuevo = new Node<T>(valor);
+        if(posicion != head){
+            run_through(head, posicion).set_next(nuevo);
+        }else{
+            head = nuevo;
+        }
         nuevo.set_next(posicion);
-        run_through(head, posicion).set_next(nuevo);
     }
 
     public void addAfter(Node<T> posicion, T valor){

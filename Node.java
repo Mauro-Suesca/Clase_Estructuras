@@ -4,7 +4,7 @@ public class Node<T>{
 
     Node(T valor){
         this.valor = valor;
-        next = null;
+        set_next(null);
     }
 
     public Node<T> get_next(){

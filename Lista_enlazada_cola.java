@@ -1,7 +1,7 @@
 import java.util.InputMismatchException;
 
 class Lista_enlazada_cola<T> extends Lista_enlazada<T>{
-    private Node<T> tail;
+    protected Node<T> tail;
 
     Lista_enlazada_cola(){
         super();
@@ -19,7 +19,7 @@ class Lista_enlazada_cola<T> extends Lista_enlazada<T>{
     @Override
     public void addLast(T elemento){
         Node<T> nuevo = new Node<T>(elemento);
-        if(head != null){
+        if(tail != null){
             tail.set_next(nuevo);
         }else{
             head = nuevo;
@@ -37,7 +37,7 @@ class Lista_enlazada_cola<T> extends Lista_enlazada<T>{
 
     @Override
     public void removeLast(){
-        if(head != null){
+        if(tail != null){
             Node<T> puntero = null;
             if(head != tail){
                 puntero = run_through(head, tail);    //Por como funciona run_through, 'puntero' es el penúltimo elemento
@@ -65,15 +65,11 @@ class Lista_enlazada_cola<T> extends Lista_enlazada<T>{
         boolean respuesta = false;
         if(head != null){
             if(head.get_valor().equals(valor)){
-                if(head == tail){
-                    tail = null;
-                }
-                head = head.get_next();
+                removeFirst();
                 respuesta = true;
             }else if(tail.get_valor().equals(valor)){
-                Node<T> puntero = run_through(head, tail);
-                puntero.set_next(null);
-                tail = puntero;
+                removeLast();
+                respuesta = true;
             }else{
                 Node<T> current = head;
                 while(current.get_next() != null){
@@ -93,10 +89,9 @@ class Lista_enlazada_cola<T> extends Lista_enlazada<T>{
         Node<T> nuevo = new Node<T>(valor);
         if(posicion != tail){
             nuevo.set_next(posicion.get_next());
-            posicion.set_next(nuevo);
         }else{
-            posicion.set_next(nuevo);
             tail = nuevo;
         }
+        posicion.set_next(nuevo);
     }
 }

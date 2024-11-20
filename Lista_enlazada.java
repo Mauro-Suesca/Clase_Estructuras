@@ -103,6 +103,7 @@ public class Lista_enlazada<T> implements Lista_nodo<T>{
                     if(current.get_next().get_valor().equals(valor)){
                         current.set_next(current.get_next().get_next());
                         respuesta = true;
+                        break;
                     }
                     current = current.get_next();
                 }

@@ -57,6 +57,33 @@ public class Lista_doble_enlazada<T> extends Lista_enlazada_cola<T>{
     }
 
     @Override
+    public boolean erase(T valor){
+        boolean respuesta = false;
+        if(head != null){
+            if(head.get_valor().equals(valor)){
+                removeFirst();
+                respuesta = true;
+            }else{
+                Node_mult<T> current = as_mult(head.get_next());
+                while(current != tail){
+                    if(current.get_valor().equals(valor)){
+                        current.get_next().set_prev(current.get_prev());
+                        current.get_prev().set_next(current.get_next());
+                        respuesta = true;
+                        break;
+                    }
+                    current = current.get_next();
+                }
+                if(!respuesta && tail.get_valor().equals(valor)){
+                    removeLast();
+                    respuesta = true;
+                }
+            }
+        }
+        return respuesta;
+    }
+
+    @Override
     public void addBefore(Node<T> posicion, T valor){
         Node_mult<T> nuevo = new Node_mult<T>(valor);
         if(posicion != head){

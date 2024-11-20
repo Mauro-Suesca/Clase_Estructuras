@@ -1,11 +1,13 @@
+import java.lang.reflect.Array;
+
 public class Lista_array<T> implements Lista_Array_Inter<T>{
     T[] datos;
     int posicion_actual;
 
-    @SuppressWarnings("unchecked")
-    Lista_array(int initial_size){
-        datos = (T[])(new Object[initial_size]);
-        posicion_actual = 0;
+    Lista_array(Class<T> c, int initial_size){
+        @SuppressWarnings("unchecked")
+        final T[] datos = (T[]) Array.newInstance(c, initial_size);
+        this.datos = datos;
     }
 
     public void addLast(T element){

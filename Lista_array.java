@@ -1,8 +1,12 @@
 import java.lang.reflect.Array;
 
 public class Lista_array<T> implements Lista_Array_Inter<T>{
-    T[] datos;
-    int posicion_actual;
+    protected T[] datos;
+    protected int posicion_actual;
+
+    Lista_array(){
+        datos = null;
+    }
 
     Lista_array(Class<T> c, int initial_size){
         @SuppressWarnings("unchecked")

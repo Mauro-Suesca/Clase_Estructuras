@@ -8,12 +8,13 @@ public class TiempoLista{
         Scanner input = new Scanner(System.in);
         Lista<Integer> list;
         Instant inicio, inicio_secundario, inicio_terciario;
-        int n, casos, tipo;
+        int n, casos, tipo, incremento;
         long[] add_time, remove_time, extra_time;
         ChronoUnit unidad_tiempo;
 
         //TODO Mover los métodos especiales a su propia serie de for
 
+        incremento = 5;
         while(true){
             try{
                 clear_screen();
@@ -83,24 +84,24 @@ public class TiempoLista{
                     list.removeLast();
                 }
                 remove_time[i] = inicio_terciario.until(Instant.now(), unidad_tiempo);
-                n *= 10;
+                n *= incremento;
             }
     
             //Mostrar el tiempo
             n = 10000;
             for(int j=0; j<casos; j++){
                 System.out.println("Método addLast con " + n + " elementos duró: " + add_time[j] + " " + tiempo_en_palabras(unidad_tiempo));
-                n *= 10;
+                n *= incremento;
             }
             n = 10000;
             for(int j=0; j<casos; j++){
                 System.out.println("Método topBack iterado " + n + " veces con " + n + " elementos duró: " + extra_time[j] + " " + tiempo_en_palabras(unidad_tiempo));
-                n *= 10;
+                n *= incremento;
             }
             n = 10000;
             for(int j=0; j<casos; j++){
                 System.out.println("Método removeLast con " + n + " elementos duró: " + remove_time[j] + " " + tiempo_en_palabras(unidad_tiempo));
-                n *= 10;
+                n *= incremento;
             }
 
             if(tipo == 1){
@@ -156,23 +157,23 @@ public class TiempoLista{
                 remove_time[i] = inicio_terciario.until(Instant.now(), unidad_tiempo);
                 
 
-                n *= 10;
+                n *= incremento;
             }
             //Mostrar el tiempo
             n = 10000;
             for(int j=0; j<casos; j++){
                 System.out.println("Método addFirst con " + n + " elementos duró: " + add_time[j] + " " + tiempo_en_palabras(unidad_tiempo));
-                n *= 10;
+                n *= incremento;
             }
             n = 10000;
             for(int j=0; j<casos; j++){
                 System.out.println("Método find iterado " + n + " veces con " + n + " elementos duró: " + extra_time[j] + " " + tiempo_en_palabras(unidad_tiempo));
-                n *= 10;
+                n *= incremento;
             }
             n = 10000;
             for(int j=0; j<casos; j++){
                 System.out.println("Método removeFirst con " + n + " elementos duró: " + remove_time[j] + " " + tiempo_en_palabras(unidad_tiempo));
-                n *= 10;
+                n *= incremento;
             }
 
             System.out.println("Presiona 'ENTER' para continuar");

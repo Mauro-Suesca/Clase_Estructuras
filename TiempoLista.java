@@ -140,10 +140,8 @@ public class TiempoLista{
 
         //TopBack
         switch(tipo){
-            case LINKED_LIST:
-                set_casos(false);
-                break;
             case ARRAY_LIST:
+            case LINKED_LIST:
             case LINKED_LIST_TAIL:
             case DOUBLY_LINKED_LIST: 
                 set_casos(true);

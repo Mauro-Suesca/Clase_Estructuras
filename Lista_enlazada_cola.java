@@ -78,7 +78,8 @@ class Lista_enlazada_cola<T> extends Lista_enlazada<T>{
                     current = current.get_next();
                 }
                 if(!respuesta && tail.get_valor().equals(valor)){
-                    removeLast();
+                    current.set_next(null);
+                    tail = current;
                     respuesta = true;
                 }
             }

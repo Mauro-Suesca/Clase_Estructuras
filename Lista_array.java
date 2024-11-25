@@ -97,7 +97,7 @@ public class Lista_array<T> implements Lista_Array_Inter<T>{
     }
 
     public boolean empty(){
-        return posicion_actual == 0;
+        return posicion_actual <= 0;
     }
 
     public void addBefore(int posicion, T valor){

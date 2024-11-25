@@ -1,5 +1,3 @@
-import java.util.InputMismatchException;
-
 class Lista_enlazada_cola<T> extends Lista_enlazada<T>{
     protected Node<T> tail;
 
@@ -19,7 +17,7 @@ class Lista_enlazada_cola<T> extends Lista_enlazada<T>{
     @Override
     public void addLast(T elemento){
         Node<T> nuevo = new Node<T>(elemento);
-        if(tail != null){
+        if(!empty()){
             tail.set_next(nuevo);
         }else{
             head = nuevo;
@@ -28,7 +26,7 @@ class Lista_enlazada_cola<T> extends Lista_enlazada<T>{
     }
 
     @Override
-    public void removeFirst(){
+    public void removeFirst() throws Invalid_size_operation{
         super.removeFirst();
         if(head == null){
             tail = null;
@@ -36,8 +34,8 @@ class Lista_enlazada_cola<T> extends Lista_enlazada<T>{
     }
 
     @Override
-    public void removeLast(){
-        if(tail != null){
+    public void removeLast() throws Invalid_size_operation{
+        if(!empty()){
             Node<T> puntero = null;
             if(head != tail){
                 puntero = run_through(head, tail);    //Por como funciona run_through, 'puntero' es el penúltimo elemento
@@ -47,13 +45,13 @@ class Lista_enlazada_cola<T> extends Lista_enlazada<T>{
             }
             tail = puntero;
         }else{
-            throw new InputMismatchException("Error: Lista vacia. No se puede eliminar el elemento.");
+            throw new Invalid_size_operation("Error: Lista vacia. No se puede eliminar el elemento.");
         }
     }
 
     @Override
     public T topBack(){
-        if(tail != null){
+        if(!empty()){
             return tail.get_valor();
         }else{
             return null;
@@ -61,9 +59,9 @@ class Lista_enlazada_cola<T> extends Lista_enlazada<T>{
     }
 
     @Override
-    public boolean erase(T valor){
+    public boolean erase(T valor) throws Invalid_size_operation{
         boolean respuesta = false;
-        if(head != null){
+        if(!empty()){
             if(head.get_valor().equals(valor)){
                 removeFirst();
                 respuesta = true;
@@ -83,6 +81,8 @@ class Lista_enlazada_cola<T> extends Lista_enlazada<T>{
                     respuesta = true;
                 }
             }
+        }else{
+            throw new Invalid_size_operation("Error: Lista vacia. No se puede eliminar el elemento.");
         }
         return respuesta;
     }

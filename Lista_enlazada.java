@@ -1,5 +1,3 @@
-import java.util.InputMismatchException;
-
 public class Lista_enlazada<T> implements Lista_nodo<T>{
     protected Node<T> head;
 
@@ -9,7 +7,7 @@ public class Lista_enlazada<T> implements Lista_nodo<T>{
 
     public void addFirst(T elemento){
         Node<T> nuevo = new Node<T>(elemento);
-        if(head != null){
+        if(!empty()){
             nuevo.set_next(head);
         }
         head = nuevo;
@@ -17,23 +15,23 @@ public class Lista_enlazada<T> implements Lista_nodo<T>{
 
     public void addLast(T elemento){
         Node<T> nuevo = new Node<T>(elemento);
-        if(head != null){
+        if(!empty()){
             run_through(head, null).set_next(nuevo);
         }else{
             head = nuevo;
         }
     }
 
-    public void removeFirst(){
-        if(head != null){
+    public void removeFirst() throws Invalid_size_operation{
+        if(!empty()){
             head = head.get_next();
         }else{
-            throw new InputMismatchException("Error: Lista vacia. No se puede eliminar el elemento.");
+            throw new Invalid_size_operation("Error: Lista vacia. No se puede eliminar el elemento.");
         }
     }
 
-    public void removeLast(){
-        if(head != null){
+    public void removeLast() throws Invalid_size_operation{
+        if(!empty()){
             Node<T> current = head;
             if(current.get_next() != null){
                 while(current.get_next().get_next() != null){
@@ -44,7 +42,7 @@ public class Lista_enlazada<T> implements Lista_nodo<T>{
                 head = null;
             }
         }else{
-            throw new InputMismatchException("Error: Lista vacia. No se puede eliminar el elemento.");
+            throw new Invalid_size_operation("Error: Lista vacia. No se puede eliminar el elemento.");
         }
     }
         
@@ -63,7 +61,7 @@ public class Lista_enlazada<T> implements Lista_nodo<T>{
     }
 
     public T topBack(){
-        if(head != null){
+        if(!empty()){
             return run_through(head, null).get_valor();
         }else{
             return null;
@@ -71,7 +69,7 @@ public class Lista_enlazada<T> implements Lista_nodo<T>{
     }
 
     public T topFront(){
-        if(head != null){
+        if(!empty()){
             return head.get_valor();
         }else{
             return null;
@@ -91,9 +89,9 @@ public class Lista_enlazada<T> implements Lista_nodo<T>{
         return respuesta;
     }
 
-    public boolean erase(T valor){
+    public boolean erase(T valor) throws Invalid_size_operation{
         boolean respuesta = false;
-        if(head != null){
+        if(!empty()){
             if(head.get_valor().equals(valor)){
                 head = head.get_next();
                 respuesta = true;
@@ -108,6 +106,8 @@ public class Lista_enlazada<T> implements Lista_nodo<T>{
                     current = current.get_next();
                 }
             }
+        }else{
+            throw new Invalid_size_operation("Error: Lista vacia. No se puede eliminar el elemento.");
         }
         return respuesta;
     }

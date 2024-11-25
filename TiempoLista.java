@@ -48,23 +48,27 @@ public class TiempoLista{
                 break;
         }
 
-        add_time = new long[casos];
-        remove_time = new long[casos];
-        n = MIN_PRUEBAS;
-        for(int i=0; i<casos; i++){
-            set_lista(tipo, n);
+        try{
+            add_time = new long[casos];
+            remove_time = new long[casos];
+            n = MIN_PRUEBAS;
+            for(int i=0; i<casos; i++){
+                set_lista(tipo, n);
 
-            //Add
-            add_time[i] = probar_add(n, false);
+                //Add
+                add_time[i] = probar_add(n, false);
 
-            //Remove
-            remove_time[i] = probar_remove(n, false);
+                //Remove
+                remove_time[i] = probar_remove(n, false);
 
-            n *= INCREMENTO;
+                n *= INCREMENTO;
+            }
+
+            mostrar_tiempo(add_time, "addLast");
+            mostrar_tiempo(remove_time, "removeLast");
+        }catch(Invalid_size_operation e){
+            System.out.println(e.getMessage());
         }
-
-        mostrar_tiempo(add_time, "addLast");
-        mostrar_tiempo(remove_time, "removeLast");
 
         /*
             First
@@ -81,23 +85,27 @@ public class TiempoLista{
                 break;                    
         }
         
-        add_time = new long[casos];
-        remove_time = new long[casos];
-        n = MIN_PRUEBAS;
-        for(int i=0; i<casos; i++){
-            set_lista(tipo, n);
+        try{
+            add_time = new long[casos];
+            remove_time = new long[casos];
+            n = MIN_PRUEBAS;
+            for(int i=0; i<casos; i++){
+                set_lista(tipo, n);
 
-            //Add
-            add_time[i] = probar_add(n,true);
+                //Add
+                add_time[i] = probar_add(n,true);
 
-            //Remove
-            remove_time[i] = probar_remove(n,true);
+                //Remove
+                remove_time[i] = probar_remove(n,true);
 
-            n *= INCREMENTO;
+                n *= INCREMENTO;
+            }
+
+            mostrar_tiempo(add_time, "addFirst");
+            mostrar_tiempo(remove_time, "removeFirst");
+        }catch(Invalid_size_operation e){
+            System.out.println(e.getMessage());
         }
-
-        mostrar_tiempo(add_time, "addFirst");
-        mostrar_tiempo(remove_time, "removeFirst");
 
         /*
         Otros
@@ -116,20 +124,25 @@ public class TiempoLista{
         extra_time = new long[casos];
         n = MIN_PRUEBAS;
         set_lista(tipo, n);
-        switch(tipo){
-            case ARRAY_LIST:
-            case DOUBLY_LINKED_LIST: 
-                for(int j=0; j<n; j++){
-                    list.addLast(j);
-                }
-                break;
-            case LINKED_LIST:
-            case LINKED_LIST_TAIL:
-                for(int j=0; j<n; j++){
-                    list.addFirst(j);
-                }
-                break;                    
+        try{
+            switch(tipo){
+                case ARRAY_LIST:
+                case DOUBLY_LINKED_LIST: 
+                    for(int j=0; j<n; j++){
+                        list.addLast(j);
+                    }
+                    break;
+                case LINKED_LIST:
+                case LINKED_LIST_TAIL:
+                    for(int j=0; j<n; j++){
+                        list.addFirst(j);
+                    }
+                    break;                    
+            }
+        }catch(Invalid_size_operation e){
+            System.out.println(e.getMessage());
         }
+        
 
         for(int i=0; i<casos; i++){
             extra_time[i] = probar_check(n,1);
@@ -233,7 +246,7 @@ public class TiempoLista{
         }
     }
 
-    private static long probar_add(int iteraciones, boolean first){
+    private static long probar_add(int iteraciones, boolean first) throws Invalid_size_operation{
         Instant inicio;
         if(first){
             inicio = Instant.now(); //Para la prueba se hace el Instant.now() dentro del if para que el tiempo que tarde en evaluar la condición (por más pequeño que sea) no afecte al resultado
@@ -276,7 +289,7 @@ public class TiempoLista{
         return inicio.until(Instant.now(), unidad_tiempo);
     }
 
-    private static long probar_remove(int iteraciones, boolean first){
+    private static long probar_remove(int iteraciones, boolean first) throws Invalid_size_operation{
         Instant inicio;
         if(first){
             inicio = Instant.now(); //Para la prueba se hace el Instant.now() dentro del if para que el tiempo que tarde en evaluar la condición (por más pequeño que sea) no afecte al resultado

@@ -16,13 +16,13 @@ public class Stack_array<T> extends Lista_array<T> implements Stack<T>{
         this.posicion_actual = otro.posicion_actual;
     }
     
-    @Override public T pop(){
+    @Override public T pop() throws Invalid_size_operation{
         T respuesta = topBack();
         removeLast();
         return respuesta;
     }
 
-    @Override public void push(T elemento){
+    @Override public void push(T elemento) throws Invalid_size_operation{
         addLast(elemento);
     }
 }

@@ -11,13 +11,13 @@ public class Stack_nodo<T> extends Lista_enlazada<T> implements Stack<T>{
         }
     }
     
-    @Override public T pop(){
+    @Override public T pop() throws Invalid_size_operation{
         T respuesta = topBack();
         removeFirst();
         return respuesta;
     }
 
-    @Override public void push(T elemento){
+    @Override public void push(T elemento) throws Invalid_size_operation{
         addFirst(elemento);
     }
 }

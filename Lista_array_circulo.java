@@ -32,12 +32,14 @@ public class Lista_array_circulo<T> implements Lista_Array_Inter<T>{
         int posicion = front;
         System.out.print("Elementos en el arreglo: [");
         if(full()){ //Si está lleno y solo se deja el while, no se imprimirá ningún elemento
-            System.out.print(datos[front] + " ");
+            System.out.print(datos[front] + (back != change_position(front, true) ? " " : ""));
             posicion = change_position(posicion, true);
         }
+        int siguiente;
         while(posicion != back){
-            System.out.print(datos[posicion] + " ");
-            posicion = change_position(posicion, true);
+            siguiente = change_position(posicion, true);
+            System.out.print(datos[posicion] + (back != siguiente ? " " : ""));
+            posicion = siguiente;
         }
         System.out.println("]");
     }
@@ -172,15 +174,9 @@ public class Lista_array_circulo<T> implements Lista_Array_Inter<T>{
 
     private int change_position(int valor_actual, boolean forward){
         if(forward){
-            valor_actual++;
-            if(valor_actual >= datos.length){
-                valor_actual = 0;
-            }
+            valor_actual = ++valor_actual % datos.length;
         }else{
-            valor_actual--;
-            if(valor_actual < 0){
-                valor_actual = datos.length-1;
-            }
+            valor_actual = datos.length-1 - ((datos.length - valor_actual) % datos.length);
         }
         return valor_actual;
     }

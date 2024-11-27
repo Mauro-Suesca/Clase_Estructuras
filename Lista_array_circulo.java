@@ -22,7 +22,7 @@ public class Lista_array_circulo<T> implements Lista_Array_Inter<T>{
         if(!full()){
             datos[back] = element;
             size++;
-            back = move(back, true);
+            back = change_position(back, true);
         }else{
             throw new Invalid_size_operation("Error: Lista llena. No se puede agregar el elemento.");
         }
@@ -33,18 +33,18 @@ public class Lista_array_circulo<T> implements Lista_Array_Inter<T>{
         System.out.print("Elementos en el arreglo: [");
         if(full()){ //Si está lleno y solo se deja el while, no se imprimirá ningún elemento
             System.out.print(datos[front] + " ");
-            posicion = move(posicion, true);
+            posicion = change_position(posicion, true);
         }
         while(posicion != back){
             System.out.print(datos[posicion] + " ");
-            posicion = move(posicion, true);
+            posicion = change_position(posicion, true);
         }
         System.out.println("]");
     }
 
     public void removeLast() throws Invalid_size_operation{
         if(!empty()){
-            back = move(back, false);
+            back = change_position(back, false);
             size--;
         }else{
             throw new Invalid_size_operation("Error: Lista vacia. No se puede eliminar el elemento.");
@@ -53,7 +53,7 @@ public class Lista_array_circulo<T> implements Lista_Array_Inter<T>{
 
     public void addFirst(T element) throws Invalid_size_operation{
         if(!full()){
-            front = move(front, false);
+            front = change_position(front, false);
             datos[front] = element;
             size++;
         }else{
@@ -63,7 +63,7 @@ public class Lista_array_circulo<T> implements Lista_Array_Inter<T>{
 
     public void removeFirst() throws Invalid_size_operation{
         if(!empty()){
-            front = move(front, true);
+            front = change_position(front, true);
             size--;
         }else{
             throw new Invalid_size_operation("Error: Lista vacia. No se puede eliminar el elemento.");
@@ -72,7 +72,7 @@ public class Lista_array_circulo<T> implements Lista_Array_Inter<T>{
 
     public T topBack(){
         if(!empty()){
-            return datos[move(back, false)];
+            return datos[change_position(back, false)];
         }else{
             return null;
         }
@@ -92,29 +92,35 @@ public class Lista_array_circulo<T> implements Lista_Array_Inter<T>{
             if(datos[posicion].equals(valor)){
                 return posicion;
             }
-            posicion = move(posicion, true);
+            posicion = change_position(posicion, true);
         }
         while(posicion != back){
             if(datos[posicion].equals(valor)){
                 respuesta = posicion;
                 break;
             }
-            posicion = move(posicion, true);
+            posicion = change_position(posicion, true);
         }
         return respuesta;
     }
 
-    public boolean erase(T valor) throws Invalid_size_operation{//TODO función erase
+    public boolean erase(T valor) throws Invalid_size_operation{
         int posicion = find(valor);
         if(posicion != -1){
-            int menor_distancia = mas_cercano(posicion);
-            if(menor_distancia == 1){
-
-            }else if(menor_distancia == -1){
-
+            if(posicion == front){
+                removeFirst();
+            }else if(posicion == change_position(back, false)){
+                removeLast();
             }else{
-
+                int menor_distancia = mas_cercano(posicion);
+                if(menor_distancia == -1){
+                    move(false, posicion, change_position(back, false),true);
+                }else{
+                    move(true, front, posicion, true);
+                }
+                size--;
             }
+            return true;
         }else if(empty()){
             throw new Invalid_size_operation("Error: Lista vacia. No se puede eliminar el elemento.");
         }else{
@@ -138,7 +144,7 @@ public class Lista_array_circulo<T> implements Lista_Array_Inter<T>{
 
     }
 
-    private int move(int valor_actual, boolean forward){
+    private int change_position(int valor_actual, boolean forward){
         if(forward){
             valor_actual++;
             if(valor_actual >= datos.length){
@@ -159,7 +165,7 @@ public class Lista_array_circulo<T> implements Lista_Array_Inter<T>{
      * @return 1 si front está más cerca, 0 si están a distancias iguales, -1 si back está más cerca
      */
     private int mas_cercano(int posicion){
-        int back_aux = move(back, false);
+        int back_aux = change_position(back, false);
         if(posicion == front || posicion == back_aux){
             if(posicion == front && posicion == back_aux){
                 return 0;
@@ -191,5 +197,43 @@ public class Lista_array_circulo<T> implements Lista_Array_Inter<T>{
                 return -1;
             }
         }  
+    }
+
+    /**
+     * Mueve los elementos del arreglo en una dirección dependiendo de la posición (para eliminar o añadir elementos en el medio). No hace nada cuando el array está lleno o inicio y fin son iguales
+     * @param forward Indica si se deben mover los elementos hacia adelante o atrás
+     * @param inicio La posición donde se encuentra (o la posición anterior a, con forward == false) el primer elemento a mover
+     * @param fin La posición donde se encuentra (o la posición posterior a, con forward == true) el último elemento a mover
+     * @param delete Indica si se está moviendo para eliminar un elemento o no
+     */
+    private void move(boolean forward, int inicio, int fin, boolean delete){
+        if(inicio != fin && !full()){
+            int posicion;
+            if(forward){
+                int anterior;
+                posicion = fin;
+                while(posicion != inicio){
+                    anterior = change_position(posicion, false);
+                    datos[posicion] = datos[anterior];
+                    posicion = anterior;
+                }
+            }else{
+                int siguiente;
+                posicion = inicio;
+                while(posicion != fin){
+                    siguiente = change_position(posicion, true);
+                    datos[posicion] = datos[siguiente];
+                    posicion = siguiente;
+                }
+            }
+
+            delete = forward ? delete : !delete; //delete indica si es front o back que se modifica, si se mueve hacia el frente, se da la lógica del siguiente if, si se mueve hacia atrás, se invierta la lógica, por eso se niega delete
+
+            if(delete){
+                front = change_position(front, forward); //Ambos valores siempre se moverán en la dirección en la que se movieron los elementos, por eso se deja forward como tal
+            }else{
+                back = change_position(back, forward);
+            }
+        }
     }
 }

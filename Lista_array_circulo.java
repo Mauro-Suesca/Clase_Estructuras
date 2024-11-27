@@ -136,12 +136,38 @@ public class Lista_array_circulo<T> implements Lista_Array_Inter<T>{
         return size == datos.length;
     }
 
-    public void addBefore(int posicion, T valor){//TODO función addBefore
-
+    public void addBefore(int posicion, T valor) throws Invalid_size_operation{
+        if(!full()){
+            int menor_distancia = mas_cercano(posicion);
+            if(menor_distancia == 1 || menor_distancia == 0){
+                int anterior = change_position(posicion, false);
+                move(false, change_position(front, false), anterior, false);
+                datos[anterior] = valor;
+            }else{
+                move(true, posicion, back, false);
+                datos[posicion] = valor;
+            }
+            size++;
+        }else{
+            throw new Invalid_size_operation("Error: Lista llena. No se puede agregar el elemento.");
+        }
     }
 
-    public void addAfter(int posicion, T valor){//TODO función addAfter
-
+    public void addAfter(int posicion, T valor) throws Invalid_size_operation{
+        if(!full()){
+            int menor_distancia = mas_cercano(posicion);
+            if(menor_distancia == -1 || menor_distancia == 0){
+                int siguiente = change_position(posicion, true);
+                move(true, siguiente, back, false);
+                datos[siguiente] = valor;
+            }else{
+                move(false, change_position(front, false), posicion, false);
+                datos[posicion] = valor;
+            }
+            size++;
+        }else{
+            throw new Invalid_size_operation("Error: Lista llena. No se puede agregar el elemento.");
+        }
     }
 
     private int change_position(int valor_actual, boolean forward){

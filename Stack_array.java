@@ -1,4 +1,4 @@
-public class Stack_array<T> extends Lista_array<T> implements Stack<T>{
+public class Stack_array<T> extends Lista_array_estatico<T> implements Stack<T>{
     Stack_array(){
         super();
     }

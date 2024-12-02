@@ -6,16 +6,14 @@ class Lista_enlazada_cola<T> extends Lista_enlazada<T>{
         tail = null;
     }
 
-    @Override
-    public void addFirst(T elemento){
+    @Override public void addFirst(T elemento){
         super.addFirst(elemento);
         if(tail == null){
             tail = head;
         }
     }
 
-    @Override
-    public void addLast(T elemento){
+    @Override public void addLast(T elemento){
         Node<T> nuevo = new Node<T>(elemento);
         if(!empty()){
             tail.set_next(nuevo);
@@ -25,16 +23,14 @@ class Lista_enlazada_cola<T> extends Lista_enlazada<T>{
         tail = nuevo;
     }
 
-    @Override
-    public void removeFirst() throws Invalid_size_operation{
+    @Override public void removeFirst() throws Invalid_size_operation{
         super.removeFirst();
         if(head == null){
             tail = null;
         }
     }
 
-    @Override
-    public void removeLast() throws Invalid_size_operation{
+    @Override public void removeLast() throws Invalid_size_operation{
         if(!empty()){
             Node<T> puntero = null;
             if(head != tail){
@@ -49,8 +45,7 @@ class Lista_enlazada_cola<T> extends Lista_enlazada<T>{
         }
     }
 
-    @Override
-    public T topBack(){
+    @Override public T topBack(){
         if(!empty()){
             return tail.get_valor();
         }else{
@@ -58,8 +53,7 @@ class Lista_enlazada_cola<T> extends Lista_enlazada<T>{
         }
     }
 
-    @Override
-    public boolean erase(T valor) throws Invalid_size_operation{
+    @Override public boolean erase(T valor) throws Invalid_size_operation{
         boolean respuesta = false;
         if(!empty()){
             if(head.get_valor().equals(valor)){
@@ -87,9 +81,8 @@ class Lista_enlazada_cola<T> extends Lista_enlazada<T>{
         return respuesta;
     }
 
-    @Override
-    public void addAfter(Node<T> posicion, T valor){
-        Node<T> nuevo = new Node<T>(valor);
+    @Override public void addAfter(Node<T> posicion, T element){
+        Node<T> nuevo = new Node<T>(element);
         if(posicion != tail){
             nuevo.set_next(posicion.get_next());
         }else{

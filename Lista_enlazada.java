@@ -116,8 +116,8 @@ public class Lista_enlazada<T> implements Lista_nodo<T>{
         return head == null;
     }
 
-    public void addBefore(Node<T> posicion, T valor){
-        Node<T> nuevo = new Node<T>(valor);
+    public void addBefore(Node<T> posicion, T element){
+        Node<T> nuevo = new Node<T>(element);
         if(posicion != head){
             run_through(head, posicion).set_next(nuevo);
         }else{
@@ -126,16 +126,22 @@ public class Lista_enlazada<T> implements Lista_nodo<T>{
         nuevo.set_next(posicion);
     }
 
-    public void addAfter(Node<T> posicion, T valor){
+    public void addAfter(Node<T> posicion, T element){
         if(posicion.get_next() != null){
-            Node<T> nuevo = new Node<T>(valor);
+            Node<T> nuevo = new Node<T>(element);
             nuevo.set_next(posicion.get_next());
             posicion.set_next(nuevo);
         }else{
-            posicion.set_next(new Node<T>(valor));
+            posicion.set_next(new Node<T>(element));
         }
     }
 
+    /**
+     * Recorre la lista hasta encontrar el nodo indicado.
+     * @param start El nodo donde iniciar la búsqueda.
+     * @param until El punto donde se debe parar la búsqueda.
+     * @return El nodo en la lista cuyo 'next' es igual a 'until'.
+     */
     protected Node<T> run_through(Node<T> start, Node<T> until){
         Node<T> current = start;
         while(current.get_next() != until){

@@ -3,8 +3,7 @@ public class Lista_doble_enlazada<T> extends Lista_enlazada_cola<T>{
         super();
     }
 
-    @Override
-    public void addFirst(T elemento){
+    @Override public void addFirst(T elemento){
         Node_mult<T> nuevo = new Node_mult<T>(elemento);
         if(!empty()){
             nuevo.set_next(head);
@@ -16,8 +15,7 @@ public class Lista_doble_enlazada<T> extends Lista_enlazada_cola<T>{
         head = nuevo;
     }
 
-    @Override
-    public void addLast(T elemento){
+    @Override public void addLast(T elemento){
         Node_mult<T> nuevo = new Node_mult<T>(elemento);
         if(!empty()){
             tail.set_next(nuevo);
@@ -28,16 +26,14 @@ public class Lista_doble_enlazada<T> extends Lista_enlazada_cola<T>{
         tail = nuevo;
     }
 
-    @Override
-    public void removeFirst() throws Invalid_size_operation{
+    @Override public void removeFirst() throws Invalid_size_operation{
         super.removeFirst();
         if(head != null){
             as_mult(head).set_prev(null);
         }
     }
 
-    @Override
-    public void removeLast() throws Invalid_size_operation{
+    @Override public void removeLast() throws Invalid_size_operation{
         if(!empty()){
             if(head != tail){
                 tail = as_mult(tail).get_prev();
@@ -51,13 +47,11 @@ public class Lista_doble_enlazada<T> extends Lista_enlazada_cola<T>{
         }
     }
 
-    @Override
-    public Node_mult<T> find(T valor){ //Retorna el Nodo de la primera ocurrencia del elemento, retorna null si el elemento no existe en la lista
+    @Override public Node_mult<T> find(T valor){ //Retorna el Nodo de la primera ocurrencia del elemento, retorna null si el elemento no existe en la lista
         return as_mult(super.find(valor));
     }
 
-    @Override
-    public boolean erase(T valor) throws Invalid_size_operation{
+    @Override public boolean erase(T valor) throws Invalid_size_operation{
         boolean respuesta = false;
         Node_mult<T> ubicacion = find(valor);
 
@@ -72,9 +66,8 @@ public class Lista_doble_enlazada<T> extends Lista_enlazada_cola<T>{
         return respuesta;
     }
 
-    @Override
-    public void addBefore(Node<T> posicion, T valor){
-        Node_mult<T> nuevo = new Node_mult<T>(valor);
+    @Override public void addBefore(Node<T> posicion, T element){
+        Node_mult<T> nuevo = new Node_mult<T>(element);
         if(posicion != head){
             Node_mult<T> anterior = as_mult(as_mult(posicion).get_prev());
             anterior.set_next(nuevo);
@@ -86,9 +79,8 @@ public class Lista_doble_enlazada<T> extends Lista_enlazada_cola<T>{
         nuevo.set_next(posicion);
     }
 
-    @Override
-    public void addAfter(Node<T> posicion, T valor){
-        Node_mult<T> nuevo = new Node_mult<T>(valor);
+    @Override public void addAfter(Node<T> posicion, T element){
+        Node_mult<T> nuevo = new Node_mult<T>(element);
         if(posicion != tail){
             Node_mult<T> siguiente = as_mult(posicion.get_next());
             siguiente.set_prev(nuevo);
@@ -100,6 +92,10 @@ public class Lista_doble_enlazada<T> extends Lista_enlazada_cola<T>{
         posicion.set_next(nuevo);
     }
 
+    /**
+     * @param nodo Un nodo de tipo 'Node_mult' enmascarado como 'Node'.
+     * @return El nodo dado typecasteado a 'Node_mult'
+     */
     private Node_mult<T> as_mult(Node<T> nodo){
         return ((Node_mult<T>)nodo);
     }

@@ -1,4 +1,4 @@
-public class Queue_array<T> extends Lista_array_circulo<T> implements Queue<T>{
+public class Queue_array<T> extends Lista_array_circ<T> implements Queue<T>{
     Queue_array(){
         super();
     }

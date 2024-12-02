@@ -1,4 +1,4 @@
-public class Lista_array_dinamico<T> extends Lista_array<T>{
+public class Lista_array_dinamico<T> extends Lista_array_estatico<T>{
     Lista_array_dinamico(){
         super();
     }

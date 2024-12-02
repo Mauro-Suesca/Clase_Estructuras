@@ -1,17 +1,17 @@
 import java.lang.reflect.Array;
 
-public class Lista_array_circulo<T> implements Lista_Array_Inter<T>{
+public class Lista_array_circ<T> implements Lista_Array<T>{
     protected T[] datos;
     protected int size;
     protected int front;
     protected int back;
 
-    Lista_array_circulo(){
+    Lista_array_circ(){
         datos = null;
         size = front = back = 0;
     }
 
-    Lista_array_circulo(Class<T> c, int initial_size){
+    Lista_array_circ(Class<T> c, int initial_size){
         this();
         @SuppressWarnings("unchecked")
         final T[] datos = (T[]) Array.newInstance(c, initial_size);
@@ -172,8 +172,14 @@ public class Lista_array_circulo<T> implements Lista_Array_Inter<T>{
         }
     }
 
-    private int change_position(int valor_actual, boolean forward){
-        if(forward){
+    /**
+     * Da la posición anterior o siguiente del índice dado.
+     * @param valor_actual El índice cuya posición anterior o siguiente se quiere saber.
+     * @param next Indica si se quiere saber la posición siguiente.
+     * @return El índice en el que se encuentra la posición deseada.
+     */
+    private int change_position(int valor_actual, boolean next){
+        if(next){
             valor_actual = ++valor_actual % datos.length;
         }else{
             valor_actual = datos.length-1 - ((datos.length - valor_actual) % datos.length);

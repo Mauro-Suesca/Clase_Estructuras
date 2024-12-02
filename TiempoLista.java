@@ -9,6 +9,21 @@ public class TiempoLista{
     private static int casos;
     private static final short ARRAY_LIST = 1, LINKED_LIST = 2, LINKED_LIST_TAIL = 3, DOUBLY_LINKED_LIST = 4;
     private static final int INCREMENTO = 5, MIN_PRUEBAS = 10000;
+
+    /*
+        Lista<Integer> list = new Lista<>(10);
+        list.addLast(3);
+        list.addBefore(list.find(3), 2);
+        list.addAfter(list.find(3), 4);
+        list.print();
+        list.addFirst(1);
+        list.addLast(5);
+        list.print();
+        list.removeLast();
+        list.print();
+        list.removeFirst();
+        list.print();
+    */
     public static void main(String[] args){
         Scanner input = new Scanner(System.in);
         int n, tipo;
@@ -207,7 +222,7 @@ public class TiempoLista{
         for(int i=0; i<casos; i++){
             switch(tipo){
                 case ARRAY_LIST:
-                    Lista_Array_Inter<Integer> list_arr = ((Lista_array<Integer>)list);
+                    Lista_Array<Integer> list_arr = ((Lista_array_estatico<Integer>)list);
                     inicio = Instant.now();
                     for(int j=0; j<n; j++){
                         list_arr.find(j);
@@ -317,7 +332,7 @@ public class TiempoLista{
 
     private static void set_lista(int tipo, int n){
         if(tipo == ARRAY_LIST){
-            list = new Lista_array<>(Integer.class, n);
+            list = new Lista_array_estatico<>(Integer.class, n);
         }else if(tipo == LINKED_LIST){
             list = new Lista_enlazada<>();
         }else if(tipo == LINKED_LIST_TAIL){

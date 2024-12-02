@@ -15,12 +15,7 @@ public class Lista_array<T> implements Lista_Array_Inter<T>{
     }
 
     public void addLast(T element) throws Invalid_size_operation{
-        if(!full()){
-            datos[posicion_actual] = element;
-            posicion_actual++;
-        }else{
-            throw new Invalid_size_operation("Error: Lista llena. No se puede agregar el elemento.");
-        }
+        add(posicion_actual, element);
     }
 
     public void print(){
@@ -32,30 +27,15 @@ public class Lista_array<T> implements Lista_Array_Inter<T>{
     }
 
     public void removeLast() throws Invalid_size_operation{
-        if(!empty()){
-            posicion_actual--;
-        }else{
-            throw new Invalid_size_operation("Error: Lista vacia. No se puede eliminar el elemento.");
-        }
+        remove(posicion_actual-1);
     }
 
     public void addFirst(T element) throws Invalid_size_operation{
-        if(!full()){
-            move(0, true);
-            datos[0] = element;
-            posicion_actual++;
-        }else{
-            throw new Invalid_size_operation("Error: Lista llena. No se puede agregar el elemento.");
-        }
+        add(0, element);
     }
 
     public void removeFirst() throws Invalid_size_operation{
-        if(!empty()){
-            move(0, false);
-            posicion_actual--;
-        }else{
-            throw new Invalid_size_operation("Error: Lista vacia. No se puede eliminar el elemento.");
-        }
+        remove(0);
     }
 
     public T topBack(){
@@ -77,7 +57,7 @@ public class Lista_array<T> implements Lista_Array_Inter<T>{
     public int find(T valor){
         int respuesta = -1;
         for(int i=0; i<posicion_actual; i++){
-            if(datos[i] == valor){
+            if(datos[i].equals(valor)){
                 respuesta = i;
                 break;
             }
@@ -88,8 +68,7 @@ public class Lista_array<T> implements Lista_Array_Inter<T>{
     public boolean erase(T valor) throws Invalid_size_operation{
         int posicion_eliminar = find(valor);
         if(posicion_eliminar != -1){
-            move(posicion_eliminar, false);
-            posicion_actual--;
+            remove(posicion_eliminar);
             return true;
         }else if(empty()){
             throw new Invalid_size_operation("Error: Lista vacia. No se puede eliminar el elemento.");
@@ -106,27 +85,45 @@ public class Lista_array<T> implements Lista_Array_Inter<T>{
         return posicion_actual >= datos.length;
     }
 
-    public void addBefore(int posicion, T valor) throws Invalid_size_operation{
+    /**
+     * Añade un elemento a la lista en la posición dada
+     * @param posicion La posición que va a ocupar el nuevo elemento.
+     * @param element El elemento a añadir.
+     * @throws Invalid_size_operation Cuando se intenta añadir un nuevo elemento a una lista llena.
+     */
+    protected void add(int posicion, T element) throws Invalid_size_operation{
         if(!full()){
             move(posicion, true);
-            datos[posicion] = valor;
+            datos[posicion] = element;
             posicion_actual++;
         }else{
             throw new Invalid_size_operation("Error: Lista llena. No se puede agregar el elemento.");
         }
     }
 
-    public void addAfter(int posicion, T valor) throws Invalid_size_operation{
-        if(!full()){
-            move(posicion+1, true);
-            datos[posicion+1] = valor;
-            posicion_actual++;
+    /**
+     * Quita el elemento de la posición especificada de la lista.
+     * @param posicion La posición en la que se encuentra el elemento dentro de la lista.
+     * @throws Invalid_size_operation Si se intenta eliminar un elemento de una lista vacía.
+     */
+    protected void remove(int posicion) throws Invalid_size_operation{
+        if(!empty()){
+            move(posicion, false);
+            posicion_actual--;
         }else{
-            throw new Invalid_size_operation("Error: Lista llena. No se puede agregar el elemento.");
+            throw new Invalid_size_operation("Error: Lista vacia. No se puede eliminar el elemento.");
         }
     }
+
+    public void addBefore(int posicion, T element) throws Invalid_size_operation{
+        add(posicion, element);
+    }
+
+    public void addAfter(int posicion, T element) throws Invalid_size_operation{
+        add(posicion + 1, element);
+    }
     
-    private void move(int start, boolean forward){
+    protected void move(int start, boolean forward){
         if(forward){
             for(int i=posicion_actual; i>start; i--){
                 datos[i] = datos[i-1];

@@ -228,7 +228,7 @@ public class Lista_array_circulo<T> implements Lista_Array_Inter<T>{
      * @param fin La posición donde se encuentra (o la posición posterior a, con forward == true) el último elemento a mover
      * @param delete Indica si se está moviendo para eliminar un elemento o no
      */
-    private void move(boolean forward, int inicio, int fin, boolean delete){
+    protected void move(boolean forward, int inicio, int fin, boolean delete){
         if(inicio != fin && !full()){
             int posicion;
             if(forward){

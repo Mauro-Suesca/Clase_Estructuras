@@ -7,40 +7,27 @@ public class TiempoLista{
     private static Lista<Integer> list;
     private static ChronoUnit unidad_tiempo;
     private static int casos;
-    private static final short ARRAY_LIST = 1, LINKED_LIST = 2, LINKED_LIST_TAIL = 3, DOUBLY_LINKED_LIST = 4;
+    private static final short ARRAY_LIST_STATIC = 1, LINKED_LIST = 2, LINKED_LIST_TAIL = 3, DOUBLY_LINKED_LIST = 4, ARRAY_LIST_DYNAMIC = 5, ARRAY_LIST_CIRC = 6, ARRAY_LIST_CIRC_DYN = 7;
     private static final int INCREMENTO = 5, MIN_PRUEBAS = 10000;
 
-    /*
-        Lista<Integer> list = new Lista<>(10);
-        list.addLast(3);
-        list.addBefore(list.find(3), 2);
-        list.addAfter(list.find(3), 4);
-        list.print();
-        list.addFirst(1);
-        list.addLast(5);
-        list.print();
-        list.removeLast();
-        list.print();
-        list.removeFirst();
-        list.print();
-    */
     public static void main(String[] args){
         Scanner input = new Scanner(System.in);
         int n, tipo;
         long[] add_time, remove_time, extra_time;
+        boolean prueba_tiempo;
 
         while(true){
             try{
                 clear_screen();
-                System.out.println(ARRAY_LIST + ". ArrayList");
-                System.out.println(LINKED_LIST + ". LinkedList (no tail)");
-                System.out.println(LINKED_LIST_TAIL + ". LinkedList (with tail)");
-                System.out.println(DOUBLY_LINKED_LIST + ". DoublyLinkedList");
-                System.out.print("Ingresa el número de la lista que quieres probar: ");
+                System.out.println("1. Prueba de tiempo");
+                System.out.println("2. Prueba de funcionamiento");
+                System.out.print("Ingresa el número de la prueba que quieres hacer: ");
                 String opcion = input.nextLine().trim();
                 tipo = Integer.valueOf(opcion);
-                if(tipo <= 0 || tipo > 4){
-                    throw new NumberFormatException();
+                if(tipo <= 0 || tipo > 2){
+                    continue;
+                }else{
+                    prueba_tiempo = tipo == 1;
                 }
                 break;
             }catch(NumberFormatException e){
@@ -48,203 +35,265 @@ public class TiempoLista{
             }
         }
 
-        /*
-            Last
-        */
-
-        switch(tipo){
-            case ARRAY_LIST:
-            case DOUBLY_LINKED_LIST: 
-                set_casos(true);
+        while(true){
+            try{
+                clear_screen();
+                System.out.println(ARRAY_LIST_STATIC + ". ArrayList (estático)");
+                System.out.println(LINKED_LIST + ". LinkedList (no tail)");
+                System.out.println(LINKED_LIST_TAIL + ". LinkedList (with tail)");
+                System.out.println(DOUBLY_LINKED_LIST + ". DoublyLinkedList");
+                System.out.println(ARRAY_LIST_DYNAMIC + ". ArrayList (dinámico)");
+                System.out.println(ARRAY_LIST_CIRC + ". ArrayList (circular estático)");
+                System.out.println(ARRAY_LIST_CIRC_DYN + ". ArrayList (circular dinámico)");
+                System.out.print("Ingresa el número de la lista que quieres probar: ");
+                String opcion = input.nextLine().trim();
+                tipo = Integer.valueOf(opcion);
+                if(tipo <= 0 || tipo > 7){
+                    continue;
+                }
                 break;
-            case LINKED_LIST:
-            case LINKED_LIST_TAIL:
-                set_casos(false);
-                break;
-        }
-
-        try{
-            add_time = new long[casos];
-            remove_time = new long[casos];
-            n = MIN_PRUEBAS;
-            for(int i=0; i<casos; i++){
-                set_lista(tipo, n);
-
-                //Add
-                add_time[i] = probar_add(n, false);
-
-                //Remove
-                remove_time[i] = probar_remove(n, false);
-
-                n *= INCREMENTO;
+            }catch(NumberFormatException e){
+                continue;
             }
-
-            mostrar_tiempo(add_time, "addLast");
-            mostrar_tiempo(remove_time, "removeLast");
-        }catch(Invalid_size_operation e){
-            System.out.println(e.getMessage());
         }
 
-        /*
-            First
-        */
+        if(prueba_tiempo){
+            /*
+                Last
+            */
 
-        switch(tipo){
-            case ARRAY_LIST:
-                set_casos(false);
-                break;
-            case LINKED_LIST:
-            case LINKED_LIST_TAIL:
-            case DOUBLY_LINKED_LIST: 
-                set_casos(true);
-                break;                    
-        }
-        
-        try{
-            add_time = new long[casos];
-            remove_time = new long[casos];
-            n = MIN_PRUEBAS;
-            for(int i=0; i<casos; i++){
-                set_lista(tipo, n);
-
-                //Add
-                add_time[i] = probar_add(n,true);
-
-                //Remove
-                remove_time[i] = probar_remove(n,true);
-
-                n *= INCREMENTO;
-            }
-
-            mostrar_tiempo(add_time, "addFirst");
-            mostrar_tiempo(remove_time, "removeFirst");
-        }catch(Invalid_size_operation e){
-            System.out.println(e.getMessage());
-        }
-
-        /*
-        Otros
-        */
-
-        //TopFront
-        switch(tipo){
-            case ARRAY_LIST:
-            case LINKED_LIST:
-            case LINKED_LIST_TAIL:
-            case DOUBLY_LINKED_LIST: 
-                set_casos(true);
-                break;                    
-        }
-
-        extra_time = new long[casos];
-        n = MIN_PRUEBAS;
-        set_lista(tipo, n);
-        try{
             switch(tipo){
-                case ARRAY_LIST:
+                case ARRAY_LIST_STATIC:
                 case DOUBLY_LINKED_LIST: 
-                    for(int j=0; j<n; j++){
-                        list.addLast(j);
-                    }
+                    set_casos(true);
                     break;
                 case LINKED_LIST:
                 case LINKED_LIST_TAIL:
-                    for(int j=0; j<n; j++){
-                        list.addFirst(j);
-                    }
-                    break;                    
+                    set_casos(false);
+                    break;
             }
-        }catch(Invalid_size_operation e){
-            System.out.println(e.getMessage());
-        }
-        
 
-        for(int i=0; i<casos; i++){
-            extra_time[i] = probar_check(n,1);
-            n *= INCREMENTO;
-        }
+            try{
+                add_time = new long[casos];
+                remove_time = new long[casos];
+                n = MIN_PRUEBAS;
+                for(int i=0; i<casos; i++){
+                    set_lista(tipo, n);
 
-        mostrar_tiempo(extra_time, "TopFront");
+                    //Add
+                    add_time[i] = probar_add(n, false);
 
-        //TopBack
-        switch(tipo){
-            case ARRAY_LIST:
-            case LINKED_LIST:
-            case LINKED_LIST_TAIL:
-            case DOUBLY_LINKED_LIST: 
-                set_casos(true);
-                break;                    
-        }
+                    //Remove
+                    remove_time[i] = probar_remove(n, false);
 
-        extra_time = new long[casos];
-        n = MIN_PRUEBAS;
-        for(int i=0; i<casos; i++){
-            extra_time[i] = probar_check(n,2);
-            n *= INCREMENTO;
-        }
+                    n *= INCREMENTO;
+                }
 
-        mostrar_tiempo(extra_time, "TopBack");
+                mostrar_tiempo(add_time, "addLast");
+                mostrar_tiempo(remove_time, "removeLast");
+            }catch(Invalid_size_operation e){
+                System.out.println(e.getMessage());
+            }
 
-        //empty
-        switch(tipo){
-            case ARRAY_LIST:
-            case LINKED_LIST:
-            case LINKED_LIST_TAIL:
-            case DOUBLY_LINKED_LIST: 
-                set_casos(true);
-                break;                    
-        }
+            /*
+                First
+            */
 
-        extra_time = new long[casos];
-        n = MIN_PRUEBAS;
-        for(int i=0; i<casos; i++){
-            extra_time[i] = probar_check(n,3);
-            n *= INCREMENTO;
-        }
-
-        mostrar_tiempo(extra_time, "empty");
-
-        Instant inicio;
-
-        //find
-        switch(tipo){
-            case ARRAY_LIST:
-            case LINKED_LIST:
-            case LINKED_LIST_TAIL:
-            case DOUBLY_LINKED_LIST: 
-                set_casos(true);
-                break;                    
-        }
-
-        extra_time = new long[casos];
-        n = MIN_PRUEBAS;
-
-        for(int i=0; i<casos; i++){
             switch(tipo){
-                case ARRAY_LIST:
-                    Lista_Array<Integer> list_arr = ((Lista_array_estatico<Integer>)list);
-                    inicio = Instant.now();
-                    for(int j=0; j<n; j++){
-                        list_arr.find(j);
-                    }
-                    extra_time[i] = inicio.until(Instant.now(), unidad_tiempo);
+                case ARRAY_LIST_STATIC:
+                    set_casos(false);
                     break;
                 case LINKED_LIST:
                 case LINKED_LIST_TAIL:
                 case DOUBLY_LINKED_LIST: 
-                    Lista_nodo<Integer> list_nodo = ((Lista_nodo<Integer>)list);
-                    inicio = Instant.now();
-                    for(int j=0; j<n; j++){
-                        list_nodo.find(j);
-                    }
-                    extra_time[i] = inicio.until(Instant.now(), unidad_tiempo);
+                    set_casos(true);
+                    break;                    
+            }
+            
+            try{
+                add_time = new long[casos];
+                remove_time = new long[casos];
+                n = MIN_PRUEBAS;
+                for(int i=0; i<casos; i++){
+                    set_lista(tipo, n);
+
+                    //Add
+                    add_time[i] = probar_add(n,true);
+
+                    //Remove
+                    remove_time[i] = probar_remove(n,true);
+
+                    n *= INCREMENTO;
+                }
+
+                mostrar_tiempo(add_time, "addFirst");
+                mostrar_tiempo(remove_time, "removeFirst");
+            }catch(Invalid_size_operation e){
+                System.out.println(e.getMessage());
+            }
+
+            /*
+            Otros
+            */
+
+            //TopFront
+            switch(tipo){
+                case ARRAY_LIST_STATIC:
+                case LINKED_LIST:
+                case LINKED_LIST_TAIL:
+                case DOUBLY_LINKED_LIST: 
+                    set_casos(true);
                     break;                    
             }
 
-            n *= INCREMENTO;
-        }
+            extra_time = new long[casos];
+            n = MIN_PRUEBAS;
+            set_lista(tipo, n);
+            try{
+                switch(tipo){
+                    case ARRAY_LIST_STATIC:
+                    case DOUBLY_LINKED_LIST: 
+                        for(int j=0; j<n; j++){
+                            list.addLast(j);
+                        }
+                        break;
+                    case LINKED_LIST:
+                    case LINKED_LIST_TAIL:
+                        for(int j=0; j<n; j++){
+                            list.addFirst(j);
+                        }
+                        break;                    
+                }
+            }catch(Invalid_size_operation e){
+                System.out.println(e.getMessage());
+            }
+            
 
-        mostrar_tiempo(extra_time, "find");
+            for(int i=0; i<casos; i++){
+                extra_time[i] = probar_check(n,1);
+                n *= INCREMENTO;
+            }
+
+            mostrar_tiempo(extra_time, "TopFront");
+
+            //TopBack
+            switch(tipo){
+                case ARRAY_LIST_STATIC:
+                case LINKED_LIST:
+                case LINKED_LIST_TAIL:
+                case DOUBLY_LINKED_LIST: 
+                    set_casos(true);
+                    break;                    
+            }
+
+            extra_time = new long[casos];
+            n = MIN_PRUEBAS;
+            for(int i=0; i<casos; i++){
+                extra_time[i] = probar_check(n,2);
+                n *= INCREMENTO;
+            }
+
+            mostrar_tiempo(extra_time, "TopBack");
+
+            //empty
+            switch(tipo){
+                case ARRAY_LIST_STATIC:
+                case LINKED_LIST:
+                case LINKED_LIST_TAIL:
+                case DOUBLY_LINKED_LIST: 
+                    set_casos(true);
+                    break;                    
+            }
+
+            extra_time = new long[casos];
+            n = MIN_PRUEBAS;
+            for(int i=0; i<casos; i++){
+                extra_time[i] = probar_check(n,3);
+                n *= INCREMENTO;
+            }
+
+            mostrar_tiempo(extra_time, "empty");
+
+            Instant inicio;
+
+            //find
+            switch(tipo){
+                case ARRAY_LIST_STATIC:
+                case LINKED_LIST:
+                case LINKED_LIST_TAIL:
+                case DOUBLY_LINKED_LIST: 
+                    set_casos(true);
+                    break;                    
+            }
+
+            extra_time = new long[casos];
+            n = MIN_PRUEBAS;
+
+            for(int i=0; i<casos; i++){
+                switch(tipo){
+                    case ARRAY_LIST_STATIC:
+                        Lista_Array<Integer> list_arr = ((Lista_array_estatico<Integer>)list);
+                        inicio = Instant.now();
+                        for(int j=0; j<n; j++){
+                            list_arr.find(j);
+                        }
+                        extra_time[i] = inicio.until(Instant.now(), unidad_tiempo);
+                        break;
+                    case LINKED_LIST:
+                    case LINKED_LIST_TAIL:
+                    case DOUBLY_LINKED_LIST: 
+                        Lista_nodo<Integer> list_nodo = ((Lista_nodo<Integer>)list);
+                        inicio = Instant.now();
+                        for(int j=0; j<n; j++){
+                            list_nodo.find(j);
+                        }
+                        extra_time[i] = inicio.until(Instant.now(), unidad_tiempo);
+                        break;                    
+                }
+
+                n *= INCREMENTO;
+            }
+
+            mostrar_tiempo(extra_time, "find");
+        }else{
+            try{
+                set_lista(tipo, 5);
+                list.addLast(3);
+                if(list instanceof Lista_Array){
+                    Lista_Array<Integer> lista_arr = (Lista_Array<Integer>)list;
+                    lista_arr.addBefore(lista_arr.find(3), 2);
+                    lista_arr.addAfter(lista_arr.find(3), 4);
+                    lista_arr.print();
+                }else if(list instanceof Lista_nodo){
+                    Lista_nodo<Integer> lista_nod = (Lista_nodo<Integer>)list;
+                    lista_nod.addBefore(lista_nod.find(3), 2);
+                    lista_nod.addAfter(lista_nod.find(3), 4);
+                    lista_nod.print();
+                }
+                list.addFirst(1);
+                list.addLast(5);
+                list.print();
+                list.removeLast();
+                list.print();
+                list.removeFirst();
+                list.print();
+                list.addFirst(1);
+                list.addLast(5);
+                list.print();
+                System.out.println("Desde aquí, las listas que tienen tamaño máximo no deberían poder continuar");
+                for(int i=6; i<=10; i++){
+                    list.addLast(i);
+                }
+                list.print();
+                list.addFirst(0);
+                list.print();
+                list.erase(7);
+                list.print();
+            }catch(Invalid_size_operation e){
+                System.out.print(e.getMessage());
+            }
+        }
+        
         input.close();
     }
 
@@ -331,14 +380,20 @@ public class TiempoLista{
     }
 
     private static void set_lista(int tipo, int n){
-        if(tipo == ARRAY_LIST){
+        if(tipo == ARRAY_LIST_STATIC){
             list = new Lista_array_estatico<>(Integer.class, n);
         }else if(tipo == LINKED_LIST){
             list = new Lista_enlazada<>();
         }else if(tipo == LINKED_LIST_TAIL){
             list = new Lista_enlazada_cola<>();
-        }else{
+        }else if(tipo == DOUBLY_LINKED_LIST){
             list = new Lista_doble_enlazada<>();
+        }else if(tipo == ARRAY_LIST_DYNAMIC){
+            list = new Lista_array_dinamico<>(Integer.class, n);
+        }else if(tipo == ARRAY_LIST_CIRC){
+            list = new Lista_array_circ<>(Integer.class, n);
+        }else{
+            list = new Lista_array_circ_din<>(Integer.class, n);
         }
     }
 

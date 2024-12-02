@@ -9,7 +9,7 @@ public interface Lista_Array<T> extends Lista<T>{
      * Añade un elemento a la lista antes de la posición indicada.
      * @param posicion 
      * @param element El elemento a añadir a la lista.
-     * @throws Invalid_size_operation Si se intenta añadir un elemento a una lista llena.
+     * @throws Invalid_size_operation Si la implementación de lista tiene un tamaño máximo, arroja este error cuando se intenta añadir un nuevo elemento a una lista llena.
      */
     public void addBefore(int posicion, T element) throws Invalid_size_operation;
 
@@ -17,7 +17,7 @@ public interface Lista_Array<T> extends Lista<T>{
      * Añade un elemento a la lista después de la posición indicada.
      * @param posicion 
      * @param element El elemento a añadir a la lista.
-     * @throws Invalid_size_operation Si se intenta añadir un elemento a una lista llena.
+     * @throws Invalid_size_operation Si la implementación de lista tiene un tamaño máximo, arroja este error cuando se intenta añadir un nuevo elemento a una lista llena.
      */
     public void addAfter(int posicion, T element) throws Invalid_size_operation;
 

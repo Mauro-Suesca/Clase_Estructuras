@@ -18,11 +18,19 @@ public class Lista_array_circ<T> implements Lista_Array<T>{
         this.datos = datos;
     }
 
+    /**
+     * Añade un elemento al final de la lista sin revisar si está llena o no.
+     * @param element El elemento en cuestión.
+     */
+    protected void addLast_no_check(T element){
+        datos[back] = element;
+        size++;
+        back = change_position(back, true);
+    }
+
     public void addLast(T element) throws Invalid_size_operation{
         if(!full()){
-            datos[back] = element;
-            size++;
-            back = change_position(back, true);
+            addLast_no_check(element);
         }else{
             throw new Invalid_size_operation("Error: Lista llena. No se puede agregar el elemento.");
         }
@@ -53,11 +61,19 @@ public class Lista_array_circ<T> implements Lista_Array<T>{
         }
     }
 
+    /**
+     * Añade un elemento al inicio de la lista sin revisar si está llena o no.
+     * @param element El elemento en cuestión.
+     */
+    protected void addFirst_no_check(T element){
+        front = change_position(front, false);
+        datos[front] = element;
+        size++;
+    }
+
     public void addFirst(T element) throws Invalid_size_operation{
         if(!full()){
-            front = change_position(front, false);
-            datos[front] = element;
-            size++;
+            addFirst_no_check(element);
         }else{
             throw new Invalid_size_operation("Error: Lista llena. No se puede agregar el elemento.");
         }
@@ -138,35 +154,53 @@ public class Lista_array_circ<T> implements Lista_Array<T>{
         return size == datos.length;
     }
 
-    public void addBefore(int posicion, T valor) throws Invalid_size_operation{
+    /**
+     * Añade un elemento antes de la posición indicada de la lista sin revisar si está llena o no.
+     * @param posicion
+     * @param element El elemento en cuestión.
+     */
+    protected void addBefore_no_check(int posicion, T element){
+        int menor_distancia = mas_cercano(posicion);
+        if(menor_distancia == 1 || menor_distancia == 0){
+            int anterior = change_position(posicion, false);
+            move(false, change_position(front, false), anterior, false);
+            datos[anterior] = element;
+        }else{
+            move(true, posicion, back, false);
+            datos[posicion] = element;
+        }
+        size++;
+    }
+
+    public void addBefore(int posicion, T element) throws Invalid_size_operation{
         if(!full()){
-            int menor_distancia = mas_cercano(posicion);
-            if(menor_distancia == 1 || menor_distancia == 0){
-                int anterior = change_position(posicion, false);
-                move(false, change_position(front, false), anterior, false);
-                datos[anterior] = valor;
-            }else{
-                move(true, posicion, back, false);
-                datos[posicion] = valor;
-            }
-            size++;
+            addBefore_no_check(posicion, element);
         }else{
             throw new Invalid_size_operation("Error: Lista llena. No se puede agregar el elemento.");
         }
     }
 
-    public void addAfter(int posicion, T valor) throws Invalid_size_operation{
+    /**
+     * Añade un elemento después de la posición indicada de la lista sin revisar si está llena o no.
+     * @param posicion
+     * @param element El elemento en cuestión.
+     */
+    protected void addAfter_no_check(int posicion, T element){
+        int menor_distancia = mas_cercano(posicion);
+        if(menor_distancia == -1 || menor_distancia == 0){
+            int siguiente = change_position(posicion, true);
+            move(true, siguiente, back, false);
+            datos[siguiente] = element;
+        }else{
+            move(false, change_position(front, false), posicion, false);
+            datos[posicion] = element;
+        }
+        size++;
+    }
+
+    public void addAfter(int posicion, T element) throws Invalid_size_operation{
         if(!full()){
-            int menor_distancia = mas_cercano(posicion);
-            if(menor_distancia == -1 || menor_distancia == 0){
-                int siguiente = change_position(posicion, true);
-                move(true, siguiente, back, false);
-                datos[siguiente] = valor;
-            }else{
-                move(false, change_position(front, false), posicion, false);
-                datos[posicion] = valor;
-            }
-            size++;
+            addAfter_no_check(posicion, element);
         }else{
             throw new Invalid_size_operation("Error: Lista llena. No se puede agregar el elemento.");
         }
@@ -178,7 +212,7 @@ public class Lista_array_circ<T> implements Lista_Array<T>{
      * @param next Indica si se quiere saber la posición siguiente.
      * @return El índice en el que se encuentra la posición deseada.
      */
-    private int change_position(int valor_actual, boolean next){
+    protected int change_position(int valor_actual, boolean next){
         if(next){
             valor_actual = ++valor_actual % datos.length;
         }else{
@@ -192,7 +226,7 @@ public class Lista_array_circ<T> implements Lista_Array<T>{
      * @param posicion la posición que se quiere comparar
      * @return 1 si front está más cerca, 0 si están a distancias iguales, -1 si back está más cerca
      */
-    private int mas_cercano(int posicion){
+    protected int mas_cercano(int posicion){
         int back_aux = change_position(back, false);
         if(posicion == front || posicion == back_aux){
             if(posicion == front && posicion == back_aux){
@@ -228,14 +262,14 @@ public class Lista_array_circ<T> implements Lista_Array<T>{
     }
 
     /**
-     * Mueve los elementos del arreglo en una dirección dependiendo de la posición (para eliminar o añadir elementos en el medio). No hace nada cuando el array está lleno o inicio y fin son iguales
+     * Mueve los elementos del arreglo en una dirección dependiendo de la posición (para eliminar o añadir elementos en el medio). No hace nada cuando el array está lleno
      * @param forward Indica si se deben mover los elementos hacia adelante o atrás
      * @param inicio La posición donde se encuentra (o la posición anterior a, con forward == false) el primer elemento a mover
      * @param fin La posición donde se encuentra (o la posición posterior a, con forward == true) el último elemento a mover
      * @param delete Indica si se está moviendo para eliminar un elemento o no
      */
     protected void move(boolean forward, int inicio, int fin, boolean delete){
-        if(inicio != fin && !full()){
+        if(!full()){
             int posicion;
             if(forward){
                 int anterior;

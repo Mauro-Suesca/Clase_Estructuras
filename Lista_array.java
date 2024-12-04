@@ -1,4 +1,4 @@
-public interface Lista_Array<T> extends Lista<T>{
+public interface Lista_array<T> extends Lista<T>{
     /**
      * @param valor El valor a encontrar en la lista.
      * @return El índice de la primera ocurrencia del elemento, retorna -1 si el elemento no existe en la lista.

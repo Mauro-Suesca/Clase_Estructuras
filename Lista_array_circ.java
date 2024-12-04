@@ -1,6 +1,6 @@
 import java.lang.reflect.Array;
 
-public class Lista_array_circ<T> implements Lista_Array<T>{
+public class Lista_array_circ<T> implements Lista_array<T>{
     protected T[] datos;
     protected int size;
     protected int front;

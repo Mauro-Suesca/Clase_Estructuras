@@ -1,17 +1,19 @@
 import java.lang.reflect.Array;
 
-public class Lista_array_estatico<T> implements Lista_Array<T>{
+public class Lista_array_estatico<T> implements Lista_array<T>{
     protected T[] datos;
     protected int posicion_actual;
 
     Lista_array_estatico(){
         datos = null;
+        posicion_actual = 0;
     }
 
     Lista_array_estatico(Class<T> c, int initial_size){
         @SuppressWarnings("unchecked")
         final T[] datos = (T[]) Array.newInstance(c, initial_size);
         this.datos = datos;
+        this.posicion_actual = 0;
     }
 
     public void addLast(T element) throws Invalid_size_operation{

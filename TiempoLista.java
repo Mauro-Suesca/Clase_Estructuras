@@ -232,7 +232,7 @@ public class TiempoLista{
             for(int i=0; i<casos; i++){
                 switch(tipo){
                     case ARRAY_LIST_STATIC:
-                        Lista_Array<Integer> list_arr = ((Lista_array_estatico<Integer>)list);
+                        Lista_array<Integer> list_arr = ((Lista_array_estatico<Integer>)list);
                         inicio = Instant.now();
                         for(int j=0; j<n; j++){
                             list_arr.find(j);
@@ -259,8 +259,8 @@ public class TiempoLista{
             try{
                 set_lista(tipo, 5);
                 list.addLast(3);
-                if(list instanceof Lista_Array){
-                    Lista_Array<Integer> lista_arr = (Lista_Array<Integer>)list;
+                if(list instanceof Lista_array){
+                    Lista_array<Integer> lista_arr = (Lista_array<Integer>)list;
                     lista_arr.addBefore(lista_arr.find(3), 2);
                     lista_arr.addAfter(lista_arr.find(3), 4);
                     lista_arr.print();

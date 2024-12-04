@@ -45,8 +45,8 @@ public class Lista_array_circ_din<T> extends Lista_array_circ<T>{
      * @param posicion La posición absoluta del array original en la cual se quería ingresar el nuevo elemento.
      * @param element El nuevo elemento a ingresar.
      */    
-    @SuppressWarnings("unchecked")
-    private void expandir_array(boolean es_front, int posicion, T element){
+    protected void expandir_array(boolean es_front, int posicion, T element){
+        @SuppressWarnings("unchecked")
         T[] nuevo_datos = (T[])new Object[datos.length*2];
         int posicion_actual_nuevo = 0;
         int posicion_actual_datos = front;

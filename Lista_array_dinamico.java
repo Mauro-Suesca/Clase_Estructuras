@@ -23,7 +23,7 @@ public class Lista_array_dinamico<T> extends Lista_array_estatico<T>{
      * @param element El nuevo elemento a ingresar.
      */
     @SuppressWarnings("unchecked")
-    private void expandir_array(int posicion, T element){
+    protected void expandir_array(int posicion, T element){
         T[] nuevo_datos = (T[])new Object[datos.length*2];
         for(int i=0; i<posicion; i++){
             nuevo_datos[i] = datos[i];

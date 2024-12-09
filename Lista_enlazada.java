@@ -76,7 +76,7 @@ public class Lista_enlazada<T> implements Lista_nodo<T>{
         }
     }
 
-    public Node<T> find(T valor){ //Retorna el Nodo de la primera ocurrencia del elemento, retorna null si el elemento no existe en la lista
+    public Node<T> find(T valor){
         Node<T> respuesta = null;
         Node<T> current = head;
         while(current != null){

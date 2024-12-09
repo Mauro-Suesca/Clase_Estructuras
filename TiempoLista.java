@@ -263,32 +263,34 @@ public class TiempoLista{
                     Lista_array<Integer> lista_arr = (Lista_array<Integer>)list;
                     lista_arr.addBefore(lista_arr.find(3), 2);
                     lista_arr.addAfter(lista_arr.find(3), 4);
-                    lista_arr.print();
                 }else if(list instanceof Lista_nodo){
                     Lista_nodo<Integer> lista_nod = (Lista_nodo<Integer>)list;
                     lista_nod.addBefore(lista_nod.find(3), 2);
                     lista_nod.addAfter(lista_nod.find(3), 4);
-                    lista_nod.print();
                 }
+                list.print(); //2 3 4
                 list.addFirst(1);
                 list.addLast(5);
-                list.print();
+                list.print(); //1 2 3 4 5
                 list.removeLast();
-                list.print();
                 list.removeFirst();
-                list.print();
+                list.print(); //2 3 4
                 list.addFirst(1);
                 list.addLast(5);
-                list.print();
+                list.erase(3);
+                list.erase(1);
+                list.erase(5);
+                list.print(); //2 4
+                list.removeFirst();
+                list.removeLast();
                 System.out.println("Desde aquí, las listas que tienen tamaño máximo no deberían poder continuar");
-                for(int i=6; i<=10; i++){
+                for(int i=1; i<=10; i++){
                     list.addLast(i);
                 }
-                list.print();
+                list.print(); //1 2 3 4 5 6 7 8 9 10
                 list.addFirst(0);
-                list.print();
-                list.erase(7);
-                list.print();
+                list.print(); //0 1 2 3 4 5 6 7 8 9 10
+                
             }catch(Invalid_size_operation e){
                 System.out.print(e.getMessage());
             }

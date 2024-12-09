@@ -56,8 +56,16 @@ public class Lista_doble_enlazada<T> extends Lista_enlazada_cola<T>{
         Node_mult<T> ubicacion = find(valor);
 
         if(ubicacion != null){
-            ubicacion.get_next().set_prev(ubicacion.get_prev());
-            ubicacion.get_prev().set_next(ubicacion.get_next());
+            if(ubicacion != head){
+                ubicacion.get_prev().set_next(ubicacion.get_next());
+            }else{
+                head = head.get_next();
+            }
+            if(ubicacion != tail){
+                ubicacion.get_next().set_prev(ubicacion.get_prev());
+            }else{
+                tail = as_mult(tail).get_prev();
+            }
             respuesta = true;
         }else if(empty()){
             throw new Invalid_size_operation("Error: Lista vacia. No se puede eliminar el elemento.");
@@ -96,7 +104,7 @@ public class Lista_doble_enlazada<T> extends Lista_enlazada_cola<T>{
      * @param nodo Un nodo de tipo 'Node_mult' enmascarado como 'Node'.
      * @return El nodo dado typecasteado a 'Node_mult'
      */
-    private Node_mult<T> as_mult(Node<T> nodo){
+    protected Node_mult<T> as_mult(Node<T> nodo){
         return ((Node_mult<T>)nodo);
     }
 }

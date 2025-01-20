@@ -3,7 +3,7 @@ public class Queue_nodo<T> extends Lista_enlazada_cola<T> implements Queue<T>{
         super();
     }
 
-    @Override public void enqueue(T elemento) throws Invalid_size_operation{
+    @Override public void enqueue(T elemento){
         addLast(elemento);
     }
 

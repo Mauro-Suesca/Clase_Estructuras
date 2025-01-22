@@ -17,6 +17,22 @@ public class Lista_array_dinamico<T> extends Lista_array_estatico<T>{
         posicion_actual++;
     }
 
+    @Override public void addLast(T element){
+        add(posicion_actual, element);
+    }
+
+    @Override public void addFirst(T element){
+        add(0, element);
+    }
+
+    @Override public void addBefore(int posicion, T element){
+        add(posicion, element);
+    }
+
+    @Override public void addAfter(int posicion, T element){
+        add(posicion + 1, element);
+    }
+
     /**
      * Esta función crea un nuevo array con la longitud del doble de la actual, copia los elementos existentes e introduce un nuevo elemento en el array resultante
      * @param posicion La posición en la cual se va a ingresar el nuevo elemento.

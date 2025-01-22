@@ -6,9 +6,68 @@ public class Binary_tree<T extends Comparable<T>>{
     }
 
     /**
+     * Elimina el valor dado del árbol si lo tiene
+     * @param valor El valor a eliminar
+     * @return Si se encontró el elemento en el árbol para poder eliminarlo
+     * @throws Invalid_size_operation Si se intenta eliminar de un árbol vacío
+     */
+    public boolean delete(T valor) throws Invalid_size_operation{
+        if(raiz != null){
+            boolean respuesta = false;
+            Node_tree<T> current = search(valor, true);
+            
+            if(current != null){
+                delete_recursive(current, current.get_valor().compareTo(valor) > 0);
+                respuesta = true;
+            }
+
+            return respuesta;
+        }else{
+            throw new Invalid_size_operation("Error: Arbol vacio. No se puede eliminar el elemento.");
+        }
+    }
+
+    /**
+     * Elimina un nodo de un árbol, y se encarga de manera recursiva de que la estructura del árbol no se pierda
+     * @param padre El padre del nodo a eliminar
+     * @param left Si el nodo a eliminar es el hijo de la izquierda de 'padre'
+     */
+    private void delete_recursive(Node_tree<T> padre, boolean left){
+        Node_tree<T> nodo = left ? padre.get_left() : padre.get_right();
+        if(nodo.get_left() == null){
+            if(left){
+                padre.set_left(nodo.get_right());
+            }else{
+                padre.set_right(nodo.get_right());
+            }
+        }else if(nodo.get_right() == null){
+            if(left){
+                padre.set_left(nodo.get_left());
+            }else{
+                padre.set_right(nodo.get_left());
+            }
+        }else{
+            Node_tree<T> aux = nodo.get_right();
+            boolean lefta_righta = true;
+
+            if(aux.get_left() != null){
+                while(aux.get_left().get_left() != null){
+                    aux = aux.get_left();
+                }
+            }else{
+                aux = nodo;
+                lefta_righta = false;
+            }
+
+            nodo.set_valor((lefta_righta ? aux.get_left() : aux.get_right()).get_valor());
+            delete_recursive(aux, lefta_righta);
+        }
+    }
+
+    /**
      * Encuentra el nodo del árbol con el valor dado
      * @param valor
-     * @return El nodo que contiene el valor indicado
+     * @return El nodo que contiene el valor indicado, o null si el valor no existe en el árbol
      */
     public Node_tree<T> find(T valor){
         Node_tree<T> current = raiz;
@@ -45,7 +104,11 @@ public class Binary_tree<T extends Comparable<T>>{
      * @param element El elemento a insertar
      */
     public void insert(T element){
-        insert_recursive(raiz, element);
+        if(raiz != null){
+            insert_recursive(raiz, element);
+        }else{
+            raiz = new Node_tree<T>(element);
+        }
     }
 
     private void insert_recursive(Node_tree<T> n, T element){
@@ -69,7 +132,7 @@ public class Binary_tree<T extends Comparable<T>>{
      * @param nodo El Node_tree cuyo vecino siguiente se quiere encontrar
      * @return El Node_tree dentro del árbol cuyo valor es el mínimo valor mayor al valor del nodo dado, o null si no existe tal valor
      */
-    public Node_tree<T> Next_Neighbor(Node_tree<T> nodo){
+    public Node_tree<T> Next(Node_tree<T> nodo){
         Node_tree<T> current = null;
         if(nodo.get_right() != null){
             current = nodo.get_right();
@@ -182,6 +245,73 @@ public class Binary_tree<T extends Comparable<T>>{
             if(n.get_left() == null) System.out.println();
             print_pre_recursive(n.get_right(), depth+1);
         }
+    }
+
+    /**
+     * Encuentra todos los valores dentro del árbol que están dentro del rango dado
+     * @param x Límite inferior del rango, inclusivo
+     * @param y Límite superior del rango, inclusivo
+     * @return Una lista con todos los valores dentro del árbol que se encuentran en el rango
+     */
+    public Lista_array_dinamico<T> range_search(T x, T y){
+        Lista_array_dinamico<T> resultado = new Lista_array_dinamico<>();
+
+        if(raiz != null){
+            Node_tree<T> aux = search(x, false);
+            if(aux.get_valor().compareTo(x) >= 0){
+                resultado.addLast(aux.get_valor());
+            }
+            aux = Next(aux);
+            while(aux != null && aux.get_valor().compareTo(y) <= 0){
+                resultado.addLast(aux.get_valor());
+                aux = Next(aux);
+            }
+        }
+
+        return resultado;
+    }
+
+    /**
+     * Encuentra el nodo del árbol con el valor dado, o la posición en la que debería estar, y retorna su padre
+     * @param valor
+     * @param find_exact En el caso de no encontrar el valor dentro del árbol, indica si se debería considerar fallida la operación o, por el contrario, se debe retornar la posición en la que se debería insertar el valor dado
+     * @return El padre del nodo que contiene el valor indicado; o null si dicho nodo no existe (find_exact == true), o el que debería ser el nodo padre del valor dado (find_exact == false)
+     */
+    public Node_tree<T> search(T valor, boolean find_exact){
+        Node_tree<T> current = raiz;
+        while(current != null){
+            if(current.get_valor().compareTo(valor) > 0){
+                if(current.get_left() != null){
+                    if(current.get_left().get_valor().compareTo(valor) != 0){
+                        current = current.get_left();
+                    }else{
+                        break;
+                    }
+                }else{
+                    if(find_exact){
+                        current = null;
+                    }
+                    break;
+                }
+            }else if(current.get_valor().compareTo(valor) < 0){
+                if(current.get_right() != null){
+                    if(current.get_right().get_valor().compareTo(valor) != 0){
+                        current = current.get_right();
+                    }else{
+                        break;
+                    }
+                }else{
+                    if(find_exact){
+                        current = null;
+                    }
+                    break;
+                }
+            }else{
+                break;
+            }
+        }
+
+        return current;
     }
 
     /**

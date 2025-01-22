@@ -10,10 +10,6 @@ public class Lista_array_orden<T extends Comparable<T>> extends Lista_array_dina
         this.posicion_actual = 0;
     }
 
-    @Override public void addBefore(int posicion, T element){
-        add(posicion, element);
-    }
-
     @Override protected void expandir_array(int posicion, T element){
         @SuppressWarnings("unchecked")
         T[] nuevo_datos = (T[])new Comparable[datos.length*2];

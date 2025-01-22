@@ -1,7 +1,7 @@
 public class Node_tree<T>{
-    private T valor;
-    private Node_tree<T> left;
-    private Node_tree<T> right;
+    protected T valor;
+    protected Node_tree<T> left;
+    protected Node_tree<T> right;
 
     Node_tree(T valor){
         this.valor = valor;
@@ -31,5 +31,9 @@ public class Node_tree<T>{
 
     public void set_right(Node_tree<T> right){
         this.right = right;
+    }
+
+    public void set_valor(T valor){
+        this.valor = valor;
     }
 }

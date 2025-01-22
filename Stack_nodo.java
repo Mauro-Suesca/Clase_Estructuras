@@ -17,7 +17,7 @@ public class Stack_nodo<T> extends Lista_enlazada<T> implements Stack<T>{
         return respuesta;
     }
 
-    @Override public void push(T elemento) throws Invalid_size_operation{
+    @Override public void push(T elemento){
         addFirst(elemento);
     }
 }

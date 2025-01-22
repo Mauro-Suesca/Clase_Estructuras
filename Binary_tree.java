@@ -1,6 +1,9 @@
 public class Binary_tree<T extends Comparable<T>>{
-    private Node_tree<T> raiz;
+    protected Node_tree<T> raiz;
 
+    Binary_tree(){
+        raiz = null;
+    }
     Binary_tree(T element){
         raiz = new Node_tree<T>(element);
     }

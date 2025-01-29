@@ -9,7 +9,7 @@ public class Binary_tree<T extends Comparable<T>>{
     }
 
     /**
-     * Elimina el valor dado del árbol si lo tiene
+     * Elimina el valor dado del árbol si lo tiene, y mantiene las propiedades del árbol
      * @param valor El valor a eliminar
      * @return Si se encontró el elemento en el árbol para poder eliminarlo
      * @throws Invalid_size_operation Si se intenta eliminar de un árbol vacío
@@ -19,8 +19,30 @@ public class Binary_tree<T extends Comparable<T>>{
             boolean respuesta = false;
             Node_tree<T> current = search(valor, true);
             
-            if(current != null){
+            if(current != null && current != raiz){
                 delete_recursive(current, current.get_valor().compareTo(valor) > 0);
+                respuesta = true;
+            }else if(current == raiz){
+                if(raiz.get_left() == null){
+                    this.raiz = raiz.get_right();
+                }else if(raiz.get_right() == null){
+                    this.raiz = raiz.get_left();
+                }else{
+                    Node_tree<T> aux = raiz.get_right();
+                    boolean lefta_righta = true;
+        
+                    if(aux.get_left() != null){
+                        while(aux.get_left().get_left() != null){
+                            aux = aux.get_left();
+                        }
+                    }else{
+                        aux = raiz;
+                        lefta_righta = false;
+                    }
+        
+                    raiz.set_valor((lefta_righta ? aux.get_left() : aux.get_right()).get_valor());
+                    delete_recursive(aux, lefta_righta);
+                }
                 respuesta = true;
             }
 
@@ -91,15 +113,11 @@ public class Binary_tree<T extends Comparable<T>>{
      * @return La altura del árbol
      */
     public int height(){
-        return height_recursive(raiz);
+        return raiz != null ? height_recursive(raiz) : 0;
     }
 
     private int height_recursive(Node_tree<T> n){
-        if(n.is_leaf()){
-            return 1;
-        }else{
-            return 1 + Math.max((n.get_left() != null ? height_recursive(n.get_left()) : 0), (n.get_right() != null ? height_recursive(n.get_right()) : 0));
-        }
+        return 1 + Math.max((n.get_left() != null ? height_recursive(n.get_left()) : 0), (n.get_right() != null ? height_recursive(n.get_right()) : 0));
     }
 
     /**
@@ -168,23 +186,27 @@ public class Binary_tree<T extends Comparable<T>>{
      * Imprime los elementos del árbol en el orden dado por un recorrido Breadth-First
      */
     public void print_breadth(){
-        Queue_nodo<Node_tree<T>> recorrer = new Queue_nodo<>();
-        Node_tree<T> aux = null;
-        recorrer.enqueue(raiz);
-        while(!recorrer.empty()){
-            try{
-                aux = recorrer.dequeue();
-            }catch(Invalid_size_operation e){}
-            
-            System.out.println(aux.get_valor() + " ");
+        if(raiz != null){
+            Queue_nodo<Node_tree<T>> recorrer = new Queue_nodo<>();
+            Node_tree<T> aux = null;
+            recorrer.enqueue(raiz);
+            while(!recorrer.empty()){
+                try{
+                    aux = recorrer.dequeue();
+                }catch(Invalid_size_operation e){}
+                
+                System.out.println(aux.get_valor() + " ");
 
-            if(aux.get_left() != null){
-                recorrer.enqueue(aux.get_left());
-            }
+                if(aux.get_left() != null){
+                    recorrer.enqueue(aux.get_left());
+                }
 
-            if(aux.get_right() != null){
-                recorrer.enqueue(aux.get_right());
+                if(aux.get_right() != null){
+                    recorrer.enqueue(aux.get_right());
+                }
             }
+        }else{
+            System.out.println();
         }
     }
 
@@ -192,7 +214,11 @@ public class Binary_tree<T extends Comparable<T>>{
      * Imprime los elementos del árbol en el orden dado por un recorrido in order
      */
     public void print_in(){
-        print_in_recursive(raiz);
+        if(raiz != null){
+            print_in_recursive(raiz);
+        }else{
+            System.out.println();
+        }
     }
 
     private void print_in_recursive(Node_tree<T> n){
@@ -211,7 +237,11 @@ public class Binary_tree<T extends Comparable<T>>{
      * Imprime los elementos del árbol en el orden dado por un recorrido post order
      */
     public void print_post(){
-        print_post_recursive(raiz);
+        if(raiz != null){
+            print_post_recursive(raiz);
+        }else{
+            System.out.println();
+        }
     }
 
     private void print_post_recursive(Node_tree<T> n){
@@ -230,7 +260,11 @@ public class Binary_tree<T extends Comparable<T>>{
      * Imprime los elementos del árbol en el orden dado por un recorrido pre order, en un formato similar al de las carpetas de windows
      */
     public void print_pre(){
-        print_pre_recursive(raiz, 0);
+        if(raiz != null){
+            print_pre_recursive(raiz, 0);
+        }else{
+            System.out.println();
+        }
     }
 
     private void print_pre_recursive(Node_tree<T> n, int depth){
@@ -278,7 +312,7 @@ public class Binary_tree<T extends Comparable<T>>{
      * Encuentra el nodo del árbol con el valor dado, o la posición en la que debería estar, y retorna su padre
      * @param valor
      * @param find_exact En el caso de no encontrar el valor dentro del árbol, indica si se debería considerar fallida la operación o, por el contrario, se debe retornar la posición en la que se debería insertar el valor dado
-     * @return El padre del nodo que contiene el valor indicado; o null si dicho nodo no existe (find_exact == true), o el que debería ser el nodo padre del valor dado (find_exact == false)
+     * @return El padre del nodo que contiene el valor indicado (o this.raiz si el nodo con el valor es la raíz); o null si dicho nodo no existe (find_exact == true), o el que debería ser el nodo padre del valor dado (find_exact == false)
      */
     public Node_tree<T> search(T valor, boolean find_exact){
         Node_tree<T> current = raiz;
@@ -321,7 +355,7 @@ public class Binary_tree<T extends Comparable<T>>{
      * @return El número de nodos del árbol
      */
     public int size(){
-        return size_recursive(raiz);
+        return raiz != null ? size_recursive(raiz) : 0;
     }
 
     private int size_recursive(Node_tree<T> n){

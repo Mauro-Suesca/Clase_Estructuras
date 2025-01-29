@@ -3,7 +3,7 @@ public class Node_tree_avl<T extends Comparable<T>> extends Node_tree<T>{
 
     Node_tree_avl(T valor){
         super(valor);
-        set_height(0);
+        set_height(1);
     }
 
     public int get_height(){

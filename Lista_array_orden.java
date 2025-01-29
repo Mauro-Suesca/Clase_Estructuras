@@ -28,7 +28,7 @@ public class Lista_array_orden<T extends Comparable<T>> extends Lista_array_dina
     }
 
     /**
-     * Inserta un elemento a la lista en la posición adecuada para mantener el orden.
+     * Inserta un elemento a la lista en la posición adecuada para mantener el orden (ascendente).
      * @param element El elemento a insertar.
      */
     public void insert(T element){

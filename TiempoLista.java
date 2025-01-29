@@ -73,27 +73,23 @@ public class TiempoLista{
                     break;
             }
 
-            try{
-                add_time = new long[casos];
-                remove_time = new long[casos];
-                n = MIN_PRUEBAS;
-                for(int i=0; i<casos; i++){
-                    set_lista(tipo, n);
+            add_time = new long[casos];
+            remove_time = new long[casos];
+            n = MIN_PRUEBAS;
+            for(int i=0; i<casos; i++){
+                set_lista(tipo, n);
 
-                    //Add
-                    add_time[i] = probar_add(n, false);
+                //Add
+                add_time[i] = probar_add(n, false);
 
-                    //Remove
-                    remove_time[i] = probar_remove(n, false);
+                //Remove
+                remove_time[i] = probar_remove(n, false);
 
-                    n *= INCREMENTO;
-                }
-
-                mostrar_tiempo(add_time, "addLast");
-                mostrar_tiempo(remove_time, "removeLast");
-            }catch(Invalid_size_operation e){
-                System.out.println(e.getMessage());
+                n *= INCREMENTO;
             }
+
+            mostrar_tiempo(add_time, "addLast");
+            mostrar_tiempo(remove_time, "removeLast");
 
             /*
                 First
@@ -110,27 +106,23 @@ public class TiempoLista{
                     break;                    
             }
             
-            try{
-                add_time = new long[casos];
-                remove_time = new long[casos];
-                n = MIN_PRUEBAS;
-                for(int i=0; i<casos; i++){
-                    set_lista(tipo, n);
+            add_time = new long[casos];
+            remove_time = new long[casos];
+            n = MIN_PRUEBAS;
+            for(int i=0; i<casos; i++){
+                set_lista(tipo, n);
 
-                    //Add
-                    add_time[i] = probar_add(n,true);
+                //Add
+                add_time[i] = probar_add(n,true);
 
-                    //Remove
-                    remove_time[i] = probar_remove(n,true);
+                //Remove
+                remove_time[i] = probar_remove(n,true);
 
-                    n *= INCREMENTO;
-                }
-
-                mostrar_tiempo(add_time, "addFirst");
-                mostrar_tiempo(remove_time, "removeFirst");
-            }catch(Invalid_size_operation e){
-                System.out.println(e.getMessage());
+                n *= INCREMENTO;
             }
+
+            mostrar_tiempo(add_time, "addFirst");
+            mostrar_tiempo(remove_time, "removeFirst");
 
             /*
             Otros
@@ -149,23 +141,19 @@ public class TiempoLista{
             extra_time = new long[casos];
             n = MIN_PRUEBAS;
             set_lista(tipo, n);
-            try{
-                switch(tipo){
-                    case ARRAY_LIST_STATIC:
-                    case DOUBLY_LINKED_LIST: 
-                        for(int j=0; j<n; j++){
-                            list.addLast(j);
-                        }
-                        break;
-                    case LINKED_LIST:
-                    case LINKED_LIST_TAIL:
-                        for(int j=0; j<n; j++){
-                            list.addFirst(j);
-                        }
-                        break;                    
-                }
-            }catch(Invalid_size_operation e){
-                System.out.println(e.getMessage());
+            switch(tipo){
+                case ARRAY_LIST_STATIC:
+                case DOUBLY_LINKED_LIST: 
+                    for(int j=0; j<n; j++){
+                        list.addLast(j);
+                    }
+                    break;
+                case LINKED_LIST:
+                case LINKED_LIST_TAIL:
+                    for(int j=0; j<n; j++){
+                        list.addFirst(j);
+                    }
+                    break;                    
             }
             
 
@@ -256,44 +244,39 @@ public class TiempoLista{
 
             mostrar_tiempo(extra_time, "find");
         }else{
-            try{
-                set_lista(tipo, 5);
-                list.addLast(3);
-                if(list instanceof Lista_array){
-                    Lista_array<Integer> lista_arr = (Lista_array<Integer>)list;
-                    lista_arr.addBefore(lista_arr.find(3), 2);
-                    lista_arr.addAfter(lista_arr.find(3), 4);
-                }else if(list instanceof Lista_nodo){
-                    Lista_nodo<Integer> lista_nod = (Lista_nodo<Integer>)list;
-                    lista_nod.addBefore(lista_nod.find(3), 2);
-                    lista_nod.addAfter(lista_nod.find(3), 4);
-                }
-                list.print(); //2 3 4
-                list.addFirst(1);
-                list.addLast(5);
-                list.print(); //1 2 3 4 5
-                list.removeLast();
-                list.removeFirst();
-                list.print(); //2 3 4
-                list.addFirst(1);
-                list.addLast(5);
-                list.erase(3);
-                list.erase(1);
-                list.erase(5);
-                list.print(); //2 4
-                list.removeFirst();
-                list.removeLast();
-                System.out.println("Desde aquí, las listas que tienen tamaño máximo no deberían poder continuar");
-                for(int i=1; i<=10; i++){
-                    list.addLast(i);
-                }
-                list.print(); //1 2 3 4 5 6 7 8 9 10
-                list.addFirst(0);
-                list.print(); //0 1 2 3 4 5 6 7 8 9 10
-                
-            }catch(Invalid_size_operation e){
-                System.out.print(e.getMessage());
+            set_lista(tipo, 5);
+            list.addLast(3);
+            if(list instanceof Lista_array){
+                Lista_array<Integer> lista_arr = (Lista_array<Integer>)list;
+                lista_arr.addBefore(lista_arr.find(3), 2);
+                lista_arr.addAfter(lista_arr.find(3), 4);
+            }else if(list instanceof Lista_nodo){
+                Lista_nodo<Integer> lista_nod = (Lista_nodo<Integer>)list;
+                lista_nod.addBefore(lista_nod.find(3), 2);
+                lista_nod.addAfter(lista_nod.find(3), 4);
             }
+            list.print(); //2 3 4
+            list.addFirst(1);
+            list.addLast(5);
+            list.print(); //1 2 3 4 5
+            list.removeLast();
+            list.removeFirst();
+            list.print(); //2 3 4
+            list.addFirst(1);
+            list.addLast(5);
+            list.erase(3);
+            list.erase(1);
+            list.erase(5);
+            list.print(); //2 4
+            list.removeFirst();
+            list.removeLast();
+            System.out.println("Desde aquí, las listas que tienen tamaño máximo no deberían poder continuar");
+            for(int i=1; i<=10; i++){
+                list.addLast(i);
+            }
+            list.print(); //1 2 3 4 5 6 7 8 9 10
+            list.addFirst(0);
+            list.print(); //0 1 2 3 4 5 6 7 8 9 10
         }
         
         input.close();

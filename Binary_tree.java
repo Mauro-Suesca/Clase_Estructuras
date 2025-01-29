@@ -191,9 +191,7 @@ public class Binary_tree<T extends Comparable<T>>{
             Node_tree<T> aux = null;
             recorrer.enqueue(raiz);
             while(!recorrer.empty()){
-                try{
-                    aux = recorrer.dequeue();
-                }catch(Invalid_size_operation e){}
+                aux = recorrer.dequeue();
                 
                 System.out.println(aux.get_valor() + " ");
 

@@ -35,11 +35,9 @@ public class AVL_tree<T extends Comparable<T>> extends Binary_tree<T>{
                     raiz_avl.set_valor((lefta_righta ? aux.get_left() : aux.get_right()).get_valor());
                     delete_truly(aux, lefta_righta);
                     
-                    try{
-                        while(!actualizar.empty()){
-                            update_node_height(actualizar.pop());
-                        }
-                    }catch(Invalid_size_operation e){}
+                    while(!actualizar.empty()){
+                        update_node_height(actualizar.pop());
+                    }
                 }
             }else{
                 respuesta = delete_recursive(raiz_avl, valor);
@@ -148,11 +146,9 @@ public class AVL_tree<T extends Comparable<T>> extends Binary_tree<T>{
             nodo.set_valor((lefta_righta ? aux.get_left() : aux.get_right()).get_valor());
             delete_truly(aux, lefta_righta);
             
-            try{
-                while(!actualizar.empty()){
-                    update_node_height(actualizar.pop());
-                }
-            }catch(Invalid_size_operation e){}
+            while(!actualizar.empty()){
+                update_node_height(actualizar.pop());
+            }
         }
     }
 

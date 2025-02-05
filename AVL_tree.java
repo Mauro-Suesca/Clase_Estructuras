@@ -215,11 +215,37 @@ public class AVL_tree<T extends Comparable<T>> extends Binary_tree<T>{
     }
 
     /**
-     * Actualiza la altura del nodo dado según las alturas de sus dos hijos
-     * @param n El nodo a actualizar
+     * Encuentra el Node_tree_avl dentro del árbol con el mínimo valor mayor al valor del nodo dado
+     * @param nodo El Node_tree_avl cuyo vecino siguiente se quiere encontrar
+     * @return El Node_tree_avl dentro del árbol cuyo valor es el mínimo valor mayor al valor del nodo dado, o null si no existe tal valor
      */
-    private void update_node_height(Node_tree_avl<T> n){
-        n.set_height(1 + Math.max((n.get_left() != null ? n.get_left().get_height() : 0), (n.get_right() != null ? n.get_right().get_height() : 0)));
+    public Node_tree_avl<T> Next(Node_tree_avl<T> nodo){
+        Node_tree_avl<T> current = null;
+        if(nodo.get_right() != null){
+            current = nodo.get_right();
+            while(current.get_left() != null){
+                current = current.get_left();
+            }
+        }else{
+            if(raiz.get_valor().compareTo(nodo.get_valor()) > 0){
+                Node_tree_avl<T> min = (Node_tree_avl<T>)raiz.get_left();
+                current = (Node_tree_avl<T>)raiz.get_left();
+                while(current != null && current != nodo){
+                    if(current.get_valor().compareTo(nodo.get_valor()) < 0){
+                        current = current.get_right();
+                    }else{
+                        if(current.get_valor().compareTo(min.get_valor()) < 0){
+                            min = current;
+                        }
+                        current = current.get_left();
+                    }
+                }
+                current = min;
+            }else{
+                return null;
+            }
+        }
+        return current;
     }
 
     /**
@@ -343,5 +369,15 @@ public class AVL_tree<T extends Comparable<T>> extends Binary_tree<T>{
         update_node_height(hijo);
         hijo = lefta_righta ? padre.get_left() : padre.get_right(); //Los hijos de padre cambiaron por la rotación, ya no es el mismo "hijo" de antes
         update_node_height(hijo);
+    }
+
+    /**
+     * Actualiza la altura del nodo dado según las alturas de sus dos hijos
+     * @param n El nodo a actualizar
+     */
+    private void update_node_height(Node_tree_avl<T> n){
+        if(n != null){
+            n.set_height(1 + Math.max((n.get_left() != null ? n.get_left().get_height() : 0), (n.get_right() != null ? n.get_right().get_height() : 0)));
+        }
     }
 }

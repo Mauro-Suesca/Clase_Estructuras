@@ -67,6 +67,15 @@ public class Lista_array_estatico<T> implements Lista_array<T>{
         return respuesta;
     }
 
+    /**
+     * Obtiene el valor de la lista en la posición dada
+     * @param i El índice del valor a retornar
+     * @return El valor en el índice dado
+     */
+    public T get(int i){
+        return datos[i];
+    }
+
     public boolean erase(T valor) throws Invalid_size_operation{
         int posicion_eliminar = find(valor);
         if(posicion_eliminar != -1){

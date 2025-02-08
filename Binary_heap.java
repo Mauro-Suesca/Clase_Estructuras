@@ -48,12 +48,14 @@ public class Binary_heap<T extends Comparable<T>> extends Lista_array_orden<T> i
                 datos[i] = aux;
                 posicion_actual--;
 
-                if(aux.compareTo(datos[parent(i)]) > 0){
-                    if(i < posicion_actual){
-                        sift_up(i);
+                if(!empty()){
+                    if(aux.compareTo(datos[parent(i)]) > 0){
+                        if(i < posicion_actual){
+                            sift_up(i);
+                        }
+                    }else{
+                        sift_down(i);
                     }
-                }else{
-                    sift_down(i);
                 }
 
                 return respuesta;
@@ -87,16 +89,14 @@ public class Binary_heap<T extends Comparable<T>> extends Lista_array_orden<T> i
 
     public T[] heap_sort(T[] array){
         Binary_heap<T> aux_heap = new Binary_heap<>(array);
-        for(int i = aux_heap.posicion_actual; i>0; i++){
-            aux_heap.datos[aux_heap.posicion_actual] = aux_heap.extract_max();
+        T aux = null;
+        for(int i = aux_heap.posicion_actual; i>0; i--){
+            aux = aux_heap.extract_max();
+            aux_heap.datos[aux_heap.posicion_actual] = aux;
         }
         return aux_heap.datos;
     }
 
-    /**
-     * Ingresa al elemento dado en el heap
-     * @param element El elemento a insertar
-     */
     public void insert(T element){
         addLast(element);
         sift_up(posicion_actual-1);
@@ -109,7 +109,7 @@ public class Binary_heap<T extends Comparable<T>> extends Lista_array_orden<T> i
     private void sift_down(int i){
         T aux;
         while(i < posicion_actual && (datos[i].compareTo(datos[left_child(i) < posicion_actual ? left_child(i) : i]) < 0 || datos[i].compareTo(datos[right_child(i) < posicion_actual ? right_child(i) : i]) < 0)){
-            if(datos[left_child(i)].compareTo(datos[right_child(i)]) >= 0){
+            if(right_child(i) >= posicion_actual || (datos[left_child(i)].compareTo(datos[right_child(i)]) >= 0)){
                 aux = datos[left_child(i)];
                 datos[left_child(i)] = datos[i];
                 datos[i] = aux;

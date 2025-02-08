@@ -21,6 +21,19 @@ public interface Heap<T>{
     public T get_max();
 
     /**
+     * Organiza en orden descendente los elementos del array dado
+     * @param array El array a ordenar
+     * @return El array con sus elementos ordenados de manera descendente
+     */
+    public T[] heap_sort(T[] array);
+
+    /**
+     * Ingresa al elemento dado en el heap
+     * @param element El elemento a insertar
+     */
+    public void insert(T element);
+
+    /**
      * Obtiene la posición del hijo izquierdo del elemento que se encuentra en la posición dada
      * @param i La posición del elemento cuyo hijo se quiere obtener
      * @return La posición del hijo izquierdo del elemento en 'i'

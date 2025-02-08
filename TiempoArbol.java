@@ -46,11 +46,7 @@ public class TiempoArbol{
         */
 
         Instant inicio;
-        arbol = new Binary_tree<>();
-        
-        for(int i=0; i<max; i++){
-            arbol.insert(elementos.get(i));
-        }
+        llenar_arbol(max);
 
         //find
         set_casos(true);
@@ -79,6 +75,7 @@ public class TiempoArbol{
 
         mostrar_tiempo(extra_time, "next");
 
+        /*
         //Height
         set_casos(false);
         extra_time = new long[casos];
@@ -89,6 +86,7 @@ public class TiempoArbol{
         }
 
         mostrar_tiempo(extra_time, "height");
+        */
 
         //Size
         set_casos(false);
@@ -100,6 +98,25 @@ public class TiempoArbol{
         }
 
         mostrar_tiempo(extra_time, "size");
+        
+        //Otro size
+        set_casos(false);
+        extra_time = new long[casos];
+        n = MIN_PRUEBAS;
+        for(int i=0; i<casos; i++){
+            extra_time[i] = probar_check(n,4);
+            n *= INCREMENTO;
+        }
+
+        mostrar_tiempo(extra_time, "size sin check para hoja");
+    }
+
+    private static void llenar_arbol(int cantidad){
+        arbol = new Binary_tree<>();
+        
+        for(int i=0; i<cantidad; i++){
+            arbol.insert(elementos.get(i));
+        }
     }
 
     private static void mostrar_tiempo(long[] tiempos, String metodo){
@@ -122,30 +139,34 @@ public class TiempoArbol{
 
     /**
      * @param iteraciones el número de veces a probar el método
-     * @param tipo 1 si se quiere height, 2 si se quiere size, 3 si se quiere next
+     * @param tipo 1 si se quiere height, 2 si se quiere size, 3 si se quiere next, 4 si se quiere size sin check para hoja
      * @return el tiempo en 'unidad_tiempo' que se demoró el método
      */
     private static long probar_check(int iteraciones, int tipo){
         Instant inicio;
         if(tipo == 1){
-            arbol = new Binary_tree<>();
-            probar_add(iteraciones);
+            llenar_arbol(iteraciones);
             inicio = Instant.now();
             for(int i=0; i<iteraciones; i++){
                 arbol.height();
             }
         }else if(tipo == 2){
-            arbol = new Binary_tree<>();
-            probar_add(iteraciones);
+            llenar_arbol(iteraciones);
             inicio = Instant.now();
             for(int i=0; i<iteraciones; i++){
                 arbol.size();
             }
-        }else{
+        }else if(tipo == 3){
             Node_tree<Integer> nodo = new Node_tree<Integer>(Integer.MIN_VALUE);
             inicio = Instant.now();
             for(int i=0; i<iteraciones; i++){
                 nodo = (Node_tree<Integer>)arbol.Next(nodo);
+            }
+        }else{
+            llenar_arbol(iteraciones);
+            inicio = Instant.now();
+            for(int i=0; i<iteraciones; i++){
+                arbol.size_no_check();
             }
         }
         return inicio.until(Instant.now(), unidad_tiempo);
@@ -153,7 +174,7 @@ public class TiempoArbol{
 
     private static long probar_remove(int iteraciones) throws Invalid_size_operation{
         Instant inicio;
-        inicio = Instant.now(); //Para la prueba se hace el Instant.now() dentro del if para que el tiempo que tarde en evaluar la condición (por más pequeño que sea) no afecte al resultado
+        inicio = Instant.now();
         for(int i=0; i<iteraciones; i++){
             arbol.delete(elementos.get(i));
         }

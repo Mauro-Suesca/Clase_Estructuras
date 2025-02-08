@@ -356,7 +356,19 @@ public class Binary_tree<T extends Comparable<T>>{
         return raiz != null ? size_recursive(raiz) : 0;
     }
 
+    public int size_no_check(){
+        return raiz != null ? size_recursive_no_check(raiz) : 0;
+    }
+
     private int size_recursive(Node_tree<T> n){
         return 1 + (n.get_left() != null ? size_recursive(n.get_left()) : 0) + (n.get_right() != null ? size_recursive(n.get_right()) : 0);
+    }
+
+    private int size_recursive_no_check(Node_tree<T> n){
+        if(n == null){
+            return 0;
+        }else{
+            return 1 + size_recursive(n.get_left()) + size_recursive(n.get_right());
+        }
     }
 }

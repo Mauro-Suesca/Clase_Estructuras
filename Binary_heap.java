@@ -106,7 +106,7 @@ public class Binary_heap<T extends Comparable<T>> extends Lista_array_orden<T> i
      * Mueve a un elemento hacia abajo en el heap
      * @param i La posición del elemento que se quiere bajar
      */
-    private void sift_down(int i){
+    protected void sift_down(int i){
         T aux;
         while(i < posicion_actual && (datos[i].compareTo(datos[left_child(i) < posicion_actual ? left_child(i) : i]) < 0 || datos[i].compareTo(datos[right_child(i) < posicion_actual ? right_child(i) : i]) < 0)){
             if(right_child(i) >= posicion_actual || (datos[left_child(i)].compareTo(datos[right_child(i)]) >= 0)){
@@ -127,7 +127,7 @@ public class Binary_heap<T extends Comparable<T>> extends Lista_array_orden<T> i
      * Mueve a un elemento hacia arriba en el heap según su prioridad
      * @param i La posición del elemento que se quiere subir
      */
-    private void sift_up(int i){
+    protected void sift_up(int i){
         T aux;
         while(i > 0 && datos[i].compareTo(datos[parent(i)]) > 0){
             aux = datos[i];

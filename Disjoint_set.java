@@ -20,7 +20,7 @@ public class Disjoint_set{
 
     private int find_recursive(int x){
         if(parent[x-1] != x){
-            parent[x-1] = find_recursive(x);
+            parent[x-1] = find_recursive(parent[x-1]);
         }
 
         return parent[x-1];

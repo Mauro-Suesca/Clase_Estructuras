@@ -126,6 +126,10 @@ public class Lista_array_estatico<T> implements Lista_array<T>{
         }
     }
 
+    public int size(){
+        return posicion_actual;
+    }
+
     public void addBefore(int posicion, T element) throws Invalid_size_operation{
         add(posicion, element);
     }

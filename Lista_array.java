@@ -25,4 +25,9 @@ public interface Lista_array<T> extends Lista<T>{
      * @return Indica si la lista se encuentra actualmente llena.
      */
     public boolean full();
+
+    /**
+     * @return El número de elementos en la lista
+     */
+    public int size();
 }

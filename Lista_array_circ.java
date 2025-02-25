@@ -154,6 +154,10 @@ public class Lista_array_circ<T> implements Lista_array<T>{
         return size == datos.length;
     }
 
+    public int size(){
+        return size;
+    }
+
     /**
      * Añade un elemento antes de la posición indicada de la lista sin revisar si está llena o no.
      * @param posicion

@@ -42,6 +42,6 @@ public class Disjoint_set{
      * @throws IndexOutOfBoundsException Si se intentan unir conjuntos a partir de por lo menos un valor mayor al tamaño inicial especificado de la estructura, o de un valor menor o igual a 0
      */
     public void union(int x, int y) throws IndexOutOfBoundsException{
-        parent[x-1] = find(y);
+        parent[find(x)] = find(y);
     }
 }

@@ -1,10 +1,13 @@
-public class Binary_heap<T extends Comparable<T>> extends Lista_array_orden<T> implements Heap<T>{
+public class Binary_heap<T extends Comparable<T>> extends Lista_array_dinamico<T> implements Heap<T>{
     Binary_heap(){
         super();
     }
 
     Binary_heap(int initial_size){
-        super(initial_size);
+        @SuppressWarnings("unchecked")
+        final T[] datos = (T[]) new Comparable[initial_size];
+        this.datos = datos;
+        this.posicion_actual = 0;
     }
 
     Binary_heap(T[] array){
